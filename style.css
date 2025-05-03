@@ -206,3 +206,59 @@ body {
         flex-direction: column;
     }
 }
+
+        /* Tambahan styling untuk judul tengah dan tombol WhatsApp */
+        .section-title {
+            text-align: center;
+            position: relative;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: #333;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #27ae60;
+            margin: 0.5rem auto 0;
+        }
+        
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: scale(1.1);
+        }
+        
+        .order-form {
+            background: #f9f9f9;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .order-form h3 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #27ae60;
+        }

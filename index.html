@@ -42,9 +42,11 @@
     <section class="home" id="home">
         <div class="container">
             <div class="content">
-                <h1>Sembako Berkualitas <span>Harga Terjangkau</span></h1>
-                <p>Belanja kebutuhan pokok lebih praktis dengan kualitas terbaik langsung ke rumah Anda</p>
-                <a href="#produk" class="btn">Belanja Sekarang</a>
+                <h1 style="text-align: center;">Sembako Berkualitas <span>Harga Terjangkau</span></h1>
+                <p style="text-align: center;">Belanja kebutuhan pokok lebih praktis dengan kualitas terbaik langsung ke rumah Anda</p>
+                <div style="text-align: center;">
+                    <a href="#produk" class="btn">Belanja Sekarang</a>
+                </div>
             </div>
             <div class="image">
                 <img src="images/hero-image.png" alt="Sembako Modern">
@@ -56,6 +58,7 @@
     <section class="categories">
         <div class="container">
             <h2 class="section-title">Kategori Produk</h2>
+            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Temukan semua kebutuhan pokok Anda dalam berbagai kategori</p>
             <div class="box-container">
                 <a href="#" class="box">
                     <img src="images/category-beras.png" alt="Beras & Padi-padian">
@@ -89,6 +92,8 @@
     <section class="products" id="produk">
         <div class="container">
             <h2 class="section-title">Produk Populer</h2>
+            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Produk terbaik dengan harga spesial untuk Anda</p>
+            
             <div class="product-container">
                 <!-- Produk 1 -->
                 <div class="product">
@@ -113,7 +118,7 @@
                     <ul>
                         <li><a href="#"><i class="far fa-eye"></i></a></li>
                         <li><a href="#"><i class="far fa-heart"></i></a></li>
-                        <li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+                        <li><a href="#" class="add-to-cart" data-product="Beras Premium 5kg" data-price="58500"><i class="fas fa-shopping-cart"></i></a></li>
                     </ul>
                 </div>
                 
@@ -140,7 +145,7 @@
                     <ul>
                         <li><a href="#"><i class="far fa-eye"></i></a></li>
                         <li><a href="#"><i class="far fa-heart"></i></a></li>
-                        <li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+                        <li><a href="#" class="add-to-cart" data-product="Minyak Goreng 2L" data-price="30400"><i class="fas fa-shopping-cart"></i></a></li>
                     </ul>
                 </div>
                 
@@ -165,7 +170,7 @@
                     <ul>
                         <li><a href="#"><i class="far fa-eye"></i></a></li>
                         <li><a href="#"><i class="far fa-heart"></i></a></li>
-                        <li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+                        <li><a href="#" class="add-to-cart" data-product="Gula Pasir 1kg" data-price="15000"><i class="fas fa-shopping-cart"></i></a></li>
                     </ul>
                 </div>
                 
@@ -190,12 +195,39 @@
                     <ul>
                         <li><a href="#"><i class="far fa-eye"></i></a></li>
                         <li><a href="#"><i class="far fa-heart"></i></a></li>
-                        <li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+                        <li><a href="#" class="add-to-cart" data-product="Telur Ayam 1kg" data-price="28000"><i class="fas fa-shopping-cart"></i></a></li>
                     </ul>
                 </div>
             </div>
-            <div class="more-btn">
+            <div class="more-btn" style="text-align: center;">
                 <a href="#" class="btn">Lihat Semua Produk</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Pemesanan -->
+    <section class="order-section">
+        <div class="container">
+            <div class="order-form">
+                <h3>Pesan Sekarang</h3>
+                <form id="orderForm">
+                    <div class="form-group">
+                        <input type="text" id="customerName" placeholder="Nama Lengkap" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="customerPhone" placeholder="Nomor WhatsApp" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="customerAddress" placeholder="Alamat Pengiriman" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="orderItems" placeholder="Daftar Pesanan (akan terisi otomatis ketika Anda menambahkan ke keranjang)" readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="orderTotal" placeholder="Total Harga" readonly>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Pesan via WhatsApp</button>
+                </form>
             </div>
         </div>
     </section>
@@ -204,6 +236,7 @@
     <section class="promo" id="promo">
         <div class="container">
             <h2 class="section-title">Promo Spesial</h2>
+            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Nikmati penawaran terbaik untuk kebutuhan sehari-hari</p>
             <div class="promo-container">
                 <div class="promo-box">
                     <div class="promo-image">
@@ -232,6 +265,8 @@
     <!-- Fitur Unggulan -->
     <section class="features">
         <div class="container">
+            <h2 class="section-title">Kenapa Memilih Kami?</h2>
+            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Keunggulan yang membuat kami berbeda</p>
             <div class="box-container">
                 <div class="box">
                     <img src="images/free-delivery.png" alt="Gratis Ongkir">
@@ -261,6 +296,7 @@
     <section class="testimonial">
         <div class="container">
             <h2 class="section-title">Apa Kata Pelanggan</h2>
+            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Testimoni dari pelanggan setia kami</p>
             <div class="testimonial-container">
                 <div class="testimonial-box">
                     <div class="client">
@@ -300,6 +336,7 @@
     <section class="about" id="tentang">
         <div class="container">
             <h2 class="section-title">Tentang Kami</h2>
+            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Mengenal lebih dekat SembakoModern</p>
             <div class="about-content">
                 <div class="image">
                     <img src="images/about-us.jpg" alt="Toko Sembako Modern">
@@ -326,7 +363,9 @@
                             <p>Layanan pelanggan 24 jam</p>
                         </div>
                     </div>
-                    <a href="#" class="btn">Baca Selengkapnya</a>
+                    <div style="text-align: center;">
+                        <a href="#" class="btn">Baca Selengkapnya</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -336,6 +375,7 @@
     <section class="contact" id="kontak">
         <div class="container">
             <h2 class="section-title">Hubungi Kami</h2>
+            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Kami siap membantu kebutuhan Anda</p>
             <div class="contact-container">
                 <div class="contact-info">
                     <h3>Informasi Kontak</h3>
@@ -417,6 +457,76 @@
         </div>
     </footer>
 
+    <!-- Tombol WhatsApp Fixed -->
+    <a href="https://wa.me/6281234567890?text=Halo%20SembakoModern,%20saya%20ingin%20bertanya%20tentang%20produk%20Anda" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <script src="script.js"></script>
+    <script>
+        // JavaScript untuk fitur pemesanan otomatis ke WhatsApp
+        document.addEventListener('DOMContentLoaded', function() {
+            let cart = [];
+            let total = 0;
+            
+            // Tambahkan produk ke keranjang
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const product = this.getAttribute('data-product');
+                    const price = parseInt(this.getAttribute('data-price'));
+                    
+                    cart.push({ product, price });
+                    total += price;
+                    
+                    // Update tampilan keranjang
+                    document.querySelector('.cart-count').textContent = cart.length;
+                    
+                    // Update form pemesanan
+                    updateOrderForm();
+                    
+                    // Animasi tambah ke keranjang
+                    this.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-shopping-cart"></i>';
+                    }, 1000);
+                });
+            });
+            
+            // Fungsi untuk update form pemesanan
+            function updateOrderForm() {
+                const orderItems = document.getElementById('orderItems');
+                const orderTotal = document.getElementById('orderTotal');
+                
+                let itemsText = '';
+                cart.forEach(item => {
+                    itemsText += `- ${item.product} (Rp${item.price.toLocaleString('id-ID')})\n`;
+                });
+                
+                orderItems.value = itemsText;
+                orderTotal.value = `Rp${total.toLocaleString('id-ID')}`;
+            }
+            
+            // Submit form pemesanan
+            document.getElementById('orderForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('customerName').value;
+                const phone = document.getElementById('customerPhone').value;
+                const address = document.getElementById('customerAddress').value;
+                const items = document.getElementById('orderItems').value;
+                const total = document.getElementById('orderTotal').value;
+                
+                // Format pesan WhatsApp
+                const message = `Halo SembakoModern, saya ingin memesan:\n\n${items}\nTotal: ${total}\n\nNama: ${name}\nNo. HP: ${phone}\nAlamat: ${address}`;
+                
+                // Encode message untuk URL
+                const encodedMessage = encodeURIComponent(message);
+                
+                // Redirect ke WhatsApp
+                window.open(`https://wa.me/6281234567890?text=${encodedMessage}`, '_blank');
+            });
+        });
+    </script>
 </body>
 </html>

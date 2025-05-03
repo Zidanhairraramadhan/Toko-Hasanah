@@ -195,4 +195,48 @@ function showNotification(message, type = 'success') {
             notification.remove();
         }, 3000);
     }, 10);
+
+// Fungsi untuk handle pencarian
+function handleSearch() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('search');
+    
+    if (searchQuery) {
+        document.querySelector('.search-form input').value = searchQuery;
+        filterProductsBySearch(searchQuery);
+    }
+}
+
+function filterProductsBySearch(query) {
+    const filtered = allProducts.filter(product => 
+        product.name.toLowerCase().includes(query.toLowerCase()) ||
+        product.category.toLowerCase().includes(query.toLowerCase())
+    );
+    
+    renderProducts(filtered);
+}
+
+function renderProducts(products) {
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = '';
+    
+    if (products.length === 0) {
+        grid.innerHTML = '<p class="no-results">Produk tidak ditemukan</p>';
+        return;
+    }
+    
+    products.forEach(product => {
+        grid.appendChild(createProductElement(product));
+    });
+}
+
+// Panggil di DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    loadProducts();
+    setupCategoryFilters();
+    handleSearch(); // Tambahkan ini
+    
+    // ... kode lainnya
+});
+
 }

@@ -109,33 +109,52 @@ body {
     align-items: center;
 }
 
+/* Search Form */
 .search-form {
-    position: absolute;
-    top: 110%;
-    right: 2rem;
-    width: 300px;
-    background: white;
-    border-radius: 5px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    padding: 1rem;
+    position: relative;
     display: none;
 }
 
 .search-form.active {
     display: flex;
-}
-
-.search-form input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
+    position: absolute;
+    top: 100%;
+    right: 2rem;
+    background: white;
+    padding: 1rem;
     border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 300px;
 }
 
-.search-form label {
-    margin-left: 10px;
-    color: #27ae60;
+/* Filter Kategori */
+.category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    background: #f1f1f1;
+    border: none;
+    border-radius: 50px;
     cursor: pointer;
+    transition: all 0.3s;
+}
+
+.filter-btn.active {
+    background: #27ae60;
+    color: white;
+}
+
+/* Hasil Pencarian */
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    color: #666;
 }
 
 /* Home Section */

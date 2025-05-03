@@ -840,4 +840,71 @@ body {
         width: 90%;
         right: 5%;
     }
+
+/* Animasi */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animated {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Animasi keranjang */
+.cart-btn.animate {
+    animation: bounce 0.5s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+/* Animasi tombol tambah ke keranjang */
+.add-to-cart.added {
+    background: #27ae60;
+    color: white;
+}
+
+/* Notifikasi */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 25px;
+    background: #27ae60;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1000;
+}
+
+.notification.show {
+    opacity: 1;
+}
+
+.notification.error {
+    background: #e74c3c;
+}
+
+/* Header sticky */
+.header.sticky {
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    padding: 10px 0;
+}
+
 }

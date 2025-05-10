@@ -111,6 +111,12 @@ body {
 
 /* Search Form */
 .search-form {
+    position: relative;
+    display: none;
+}
+
+.search-form.active {
+    display: flex;
     position: absolute;
     top: 100%;
     right: 2rem;
@@ -119,44 +125,7 @@ body {
     border-radius: 5px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     width: 300px;
-    display: none;
-    z-index: 999;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
 }
-
-.search-form.active {
-    display: flex;
-}
-
-.navbar {
-    display: flex;
-}
-
-@media (max-width: 768px) {
-    .navbar {
-        position: fixed;
-        top: 80px;
-        left: -100%;
-        width: 80%;
-        height: calc(100vh - 80px);
-        background: #fff;
-        flex-direction: column;
-        transition: left 0.3s ease;
-        z-index: 999;
-    }
-
-    .navbar.active {
-        left: 0;
-    }
-
-    .search-form {
-        width: 90%;
-        right: 5%;
-    }
-}
-
 
 /* Filter Kategori */
 .category-filter {

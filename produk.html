@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Semua Produk - Sembako Modern</title>
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- CSS Utama -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,33 +14,36 @@
             <div class="logo">
                 <a href="index.html"><span>Sembako</span>Modern</a>
             </div>
+            
             <nav class="navbar">
                 <ul>
                     <li><a href="index.html">Beranda</a></li>
-                    <li><a href="produk.html" class="active">Produk</a></li>
+                    <li><a href="produk.html">Produk</a></li>
                     <li><a href="index.html#promo">Promo</a></li>
                     <li><a href="index.html#tentang">Tentang Kami</a></li>
                     <li><a href="index.html#kontak">Kontak</a></li>
                 </ul>
             </nav>
+            
             <div class="icons">
                 <div class="search-btn"><i class="fas fa-search"></i></div>
                 <div class="cart-btn"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></div>
                 <div class="menu-btn"><i class="fas fa-bars"></i></div>
             </div>
+            
             <div class="search-form">
-                <input type="search" placeholder="Cari produk..." id="searchInput">
+                <input type="search" placeholder="Cari produk...">
                 <label class="fas fa-search"></label>
             </div>
         </div>
     </header>
 
-    <!-- Halaman Produk -->
+    <!-- Konten Halaman Produk -->
     <section class="all-products">
         <div class="container">
             <h2 class="section-title">Semua Produk</h2>
             <p class="section-subtitle">Temukan semua kebutuhan pokok Anda di sini</p>
-
+            
             <!-- Filter Kategori -->
             <div class="category-filter">
                 <button class="filter-btn active" data-category="all">Semua</button>
@@ -52,13 +53,15 @@
                 <button class="filter-btn" data-category="Bumbu Dapur">Bumbu Dapur</button>
                 <button class="filter-btn" data-category="Minuman">Minuman</button>
             </div>
-
-            <!-- Grid Produk (akan di-populate via JS) -->
-            <div class="products-grid" id="productsGrid"></div>
+            
+            <!-- Daftar Produk -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Produk akan dimuat via JavaScript -->
+            </div>
         </div>
     </section>
 
-    <!-- Form Pemesanan -->
+    <!-- Form Pemesanan (sama dengan index.html) -->
     <section class="order-section">
         <div class="container">
             <div class="order-form">
@@ -74,7 +77,7 @@
                         <textarea id="customerAddress" placeholder="Alamat Pengiriman" required></textarea>
                     </div>
                     <div class="form-group">
-                        <textarea id="orderItems" placeholder="Daftar Pesanan (otomatis)" readonly></textarea>
+                        <textarea id="orderItems" placeholder="Daftar Pesanan (akan terisi otomatis)" readonly></textarea>
                     </div>
                     <div class="form-group">
                         <input type="text" id="orderTotal" placeholder="Total Harga" readonly>
@@ -85,17 +88,18 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer (sama dengan index.html) -->
     <footer class="footer">
-        <!-- Isi footer di sini -->
+        <!-- ... isi footer ... -->
     </footer>
 
-    <!-- WhatsApp Shortcut -->
+    <!-- Tombol WhatsApp -->
     <a href="https://wa.me/6283114925705" class="whatsapp-btn" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Script JS -->
-    <script src="produk.js"></script> <!-- Kode JS terpisah -->
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    <script src="produk.js"></script> <!-- File khusus untuk halaman produk -->
 </body>
 </html>

@@ -43,7 +43,7 @@ const allProducts = [
         id: 4,
         name: "Telur Ayam 1kg",
         price: 28000,
-        image: "images/product-telur.jpg",
+        image: "images/product-telur.png",
         rating: 4.5,
         category: "Sembako Dasar",
         description: "Telur ayam segar",

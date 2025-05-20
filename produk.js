@@ -100,8 +100,8 @@ const allProducts = [
     },
     {
         id: 10,
-        name: "Susu Bubuk Sachet 40gr",
-        price: 5000,
+        name: "Susu frisian flag",
+        price: 13500,
         image: "images/product-susu.png",
         rating: 4.6,
         category: "Minuman",
@@ -117,7 +117,37 @@ const allProducts = [
         category: "Minuman",
         description: "Air mineral segar dalam botol",
         stock: 200
-    }
+    },
+    {
+        id: 12,
+        name: "Mie sedap Ayam bawang",
+        price: 3500,
+        image: "images/product-MIe.png",
+        rating: 4.6,
+        category: "Makanan Instan ",
+        description: "Mie kemasan hemat",
+        stock: 60
+    },
+    {
+        id: 12,
+        name: "Mie sedap Soto",
+        price: 3500,
+        image: "images/product-MIe.png",
+        rating: 4.6,
+        category: "Makanan Instan ",
+        description: "Mie kemasan hemat",
+        stock: 60
+    },
+    {
+        id: 12,
+        name: "Mie sedap Goreng",
+        price: 3500,
+        image: "images/product-MIe.png",
+        rating: 4.6,
+        category: "Makanan Instan ",
+        description: "Mie kemasan hemat",
+        stock: 60
+    },
 ];
 
 // ==================== VARIABEL GLOBAL ====================

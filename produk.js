@@ -13,7 +13,7 @@ const allProducts = [
         discount: 65000,
         image: "beras.jpg",
         rating: 4.5,
-        category: "Beras",
+        category: "Kebutuhan Rumah Tangga",
         description: "Beras premium kualitas terbaik",
         stock: 10
     },
@@ -24,7 +24,7 @@ const allProducts = [
         discount: 32000,
         image: "minyak.jpg",
         rating: 4,
-        category: "Minyak",
+        category: "Kebutuhan Rumah Tangga",
         description: "Minyak goreng",
         stock: 15
     },
@@ -54,7 +54,7 @@ const allProducts = [
         price: 12000,
         image: "images/product-terigu.png",
         rating: 4,
-        category: "Beras & Padi-padian",
+        category: "Kebutuhan Rumah Tangga",
         description: "Tepung terigu protein sedang",
         stock: 25
     },

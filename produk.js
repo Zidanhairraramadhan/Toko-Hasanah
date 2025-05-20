@@ -119,34 +119,34 @@ const allProducts = [
         stock: 200
     },
     {
+        id: 11,
+        name: "Mie Sedap Rebus",
+        price: 3200,
+        image: "images/product-mie.png",
+        rating: 4.5,
+        category: "Makanan Instan",
+        description: "Mie Sedap Rasa Soto Lamongan",
+        stock: 100
+    },
+   {
         id: 12,
-        name: "Mie sedap Ayam bawang",
-        price: 3500,
-        image: "images/product-MIe.png",
-        rating: 4.6,
-        category: "Makanan Instan ",
-        description: "Mie kemasan hemat",
-        stock: 60
+        name: "Mie Sedap Rebus",
+        price: 3200,
+        image: "images/product-mie.png",
+        rating: 4.5,
+        category: "Makanan Instan",
+        description: "Mie instan Sedap Rasa Soto ",
+        stock: 100
     },
     {
-        id: 12,
-        name: "Mie sedap Soto",
-        price: 3500,
-        image: "images/product-MIe.png",
-        rating: 4.6,
-        category: "Makanan Instan ",
-        description: "Mie kemasan hemat",
-        stock: 60
-    },
-    {
-        id: 12,
-        name: "Mie sedap Goreng",
-        price: 3500,
-        image: "images/product-MIe.png",
-        rating: 4.6,
-        category: "Makanan Instan ",
-        description: "Mie kemasan hemat",
-        stock: 60
+        id: 13,
+        name: "Mie Instan Sedap Goreng",
+        price: 3200,
+        image: "images/product-mie.png",
+        rating: 4.5,
+        category: "Makanan Instan",
+        description: "Mie instan Sedap Goreng",
+        stock: 100
     },
 ];
 

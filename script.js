@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const encodedMessage = encodeURIComponent(message);
         
         // Redirect ke WhatsApp
-        window.open(`https://wa.me/6281234567890?text=${encodedMessage}`, '_blank');
+        window.open(`https://wa.me/6283114925705?text=${encodedMessage}`, '_blank');
         
         // Reset form dan keranjang setelah pengiriman
         resetCart();

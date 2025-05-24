@@ -390,6 +390,32 @@ body {
     margin-top: 3rem;
 }
 
+.product {
+  flex: 1 1 250px;          /* minimal lebar 250px, fleksibel */
+  max-width: 250px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease;
+}
+
+.product:hover {
+  transform: translateY(-5px);
+}
+
+.product img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+
 .products-grid {
   display: flex;
   flex-wrap: wrap;       /* agar produk bisa lanjut ke baris berikutnya */
@@ -409,6 +435,15 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
+.products-grid {
+  display: flex;
+  flex-wrap: wrap;          /* supaya bisa pindah baris */
+  gap: 20px;                /* jarak antar produk */
+  justify-content: flex-start; /* rata kiri */
+  padding: 10px;
+}
+
 
 
 /* Promo Section */

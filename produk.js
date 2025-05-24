@@ -329,7 +329,7 @@ function submitOrder() {
     }
 
     const message = `Halo SembakoModern, saya ingin memesan:\n\n${document.getElementById('orderItems').value}\nTotal: ${document.getElementById('orderTotal').value}\n\nNama: ${name}\nNo. HP: ${phone}\nAlamat: ${address}`;
-    window.open(`https://wa.me/6281234567890?text=${encodeURIComponent(message)}`, '_blank');
+    window.open(`https://wa.me/6283114925705?text=${encodeURIComponent(message)}`, '_blank');
 }
 
 // ==================== FUNGSI PENDUKUNG ====================

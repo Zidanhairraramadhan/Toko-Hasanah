@@ -390,6 +390,27 @@ body {
     margin-top: 3rem;
 }
 
+.products-grid {
+  display: flex;
+  flex-wrap: wrap;       /* agar produk bisa lanjut ke baris berikutnya */
+  gap: 20px;             /* jarak antar produk */
+  justify-content: flex-start; /* rata kiri, bisa diganti center jika mau */
+}
+
+.products-grid .product-item {
+  flex: 1 1 250px;       /* fleksibel, minimal lebar 250px per produk */
+  max-width: 250px;      /* maksimal 250px agar ukuran seragam */
+  box-sizing: border-box;
+  background: white;     /* contoh background produk */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
 /* Promo Section */
 .promo {
     padding: 5rem 0;

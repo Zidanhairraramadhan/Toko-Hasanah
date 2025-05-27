@@ -160,6 +160,18 @@ const allProducts = [
         description: "Gudang garam",
         stock: 100
     },
+    //prpduk(obat obatan)
+    {
+        id: 15,
+        name: "promax",
+        price: 1000,
+        image: "images/product-promax.png",
+        rating: 4.5,
+        category: "Obat Obatan",
+        description: "ahlinya lambung",
+        stock: 100
+    },
+
 
 ];
 

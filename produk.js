@@ -118,6 +118,7 @@ const allProducts = [
         description: "Air mineral segar dalam botol",
         stock: 200
     },
+    //makanan instan
     {
         id: 11,
         name: "Mie Sedap Rebus",
@@ -148,6 +149,18 @@ const allProducts = [
         description: "Mie instan Sedap Goreng",
         stock: 100
     },
+    //produk (roko)
+{
+        id: 14,
+        name: "surya 12",
+        price: 26000,
+        image: "images/product-rokok.png",
+        rating: 4.5,
+        category: "Rokok",
+        description: "Gudang garam",
+        stock: 100
+    },
+
 ];
 
 // ==================== VARIABEL GLOBAL ====================

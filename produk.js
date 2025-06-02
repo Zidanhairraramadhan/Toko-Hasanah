@@ -171,6 +171,36 @@ const allProducts = [
         description: "ahlinya lambung",
         stock: 100
     },
+    {
+        id: 16,
+        name: "Koyo",
+        price: 1000,
+        image: "images/product-Koyo.png",
+        rating: 4.5,
+        category: "Obat Obatan",
+        description: "meredakan encok",
+        stock: 100
+    },
+    {
+        id: 17,
+        name: "Bodrexin",
+        price: 1000,
+        image: "images/product-Bodrexin.png",
+        rating: 4.5,
+        category: "Obat Obatan",
+        description: "menurunkan panas anak-anak",
+        stock: 100
+    },
+    {
+        id: 18,
+        name: "Bodrex",
+        price: 1000,
+        image: "images/product-Bodrex.png",
+        rating: 4.5,
+        category: "Obat Obatan",
+        description: "obat menurunkan demam dll",
+        stock: 100
+    },
 
 
 ];

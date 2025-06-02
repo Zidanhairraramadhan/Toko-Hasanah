@@ -151,7 +151,7 @@ const allProducts = [
     },
     //produk (roko)
 {
-        id: 14,
+        id: 1,
         name: "surya 12",
         price: 26000,
         image: "images/product-rokok.png",
@@ -162,7 +162,7 @@ const allProducts = [
     },
     //prpduk(obat obatan)
     {
-        id: 15,
+        id: 1,
         name: "promax",
         price: 1000,
         image: "images/product-promax.png",
@@ -172,7 +172,7 @@ const allProducts = [
         stock: 100
     },
     {
-        id: 16,
+        id: 2,
         name: "Koyo",
         price: 1000,
         image: "images/product-Koyo.png",
@@ -182,7 +182,7 @@ const allProducts = [
         stock: 100
     },
     {
-        id: 17,
+        id: 3,
         name: "Bodrexin",
         price: 1000,
         image: "images/product-Bodrexin.png",
@@ -192,7 +192,7 @@ const allProducts = [
         stock: 100
     },
     {
-        id: 18,
+        id: 4,
         name: "Bodrex",
         price: 1000,
         image: "images/product-Bodrex.png",

@@ -443,51 +443,6 @@ body {
   justify-content: flex-start; /* rata kiri */
   padding: 10px;
 }
-/* Hover effect untuk kategori produk */
-.categories .box-container .box:hover {
-    transform: scale(1.1);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Hover effect on product */
-.product:hover {
-    transform: scale(1.05); /* Membuat produk sedikit lebih besar saat di-hover */
-    transition: transform 0.3s ease-in-out;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Tambahkan bayangan */
-}
-
-/* Efek pada tombol */
-.btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-    background-color: #45a049; /* Mengubah warna tombol saat di-hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Menambah bayangan saat hover */
-}
-
-/* Animasi Fade-In */
-body {
-    animation: fadeIn 1.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
 /* Promo Section */
 .promo {
     padding: 5rem 0;
@@ -912,25 +867,6 @@ body {
     background: #128C7E;
     transform: scale(1.1);
 }
-/* Tombol WhatsApp */
-.whatsapp-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #25D366;
-    color: white;
-    border-radius: 50%;
-    padding: 15px;
-    font-size: 24px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.whatsapp-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-}
-
 
 /* Responsive Styles */
 @media (max-width: 768px) {
@@ -976,14 +912,6 @@ body {
         width: 90%;
         right: 5%;
     }
-    /* Navbar hover effect */
-.navbar ul li a:hover {
-    color: #4CAF50; /* Ganti warna navbar saat di-hover */
-    border-bottom: 2px solid #4CAF50; /* Garis bawah saat di-hover */
-    padding-bottom: 4px;
-    transition: all 0.3s ease;
-}
-
 
 /* Animasi */
 @keyframes fadeInUp {

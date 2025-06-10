@@ -2,93 +2,28 @@
 document.querySelector('.menu-btn').addEventListener('click', function() {
     document.querySelector('.navbar').classList.toggle('active');
     this.classList.toggle('fa-times');
-    this.classList.toggle('fa-bars');
 });
 
-// Fungsi untuk toggle search form
-document.querySelector('.search-btn').addEventListener('click', function(e) {
-    e.stopPropagation();
-    document.querySelector('.search-form').classList.toggle('active');
-    document.querySelector('#searchInput').focus();
-});
+// Fungsi untuk mencari produk
+function searchProducts() {
+  const searchInput = document.querySelector('.search-form input');
+  const productItems = document.querySelectorAll('.product');
 
-// Tutup search form ketika klik di luar
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('.search-form') && !e.target.closest('.search-btn')) {
-        document.querySelector('.search-form').classList.remove('active');
-    }
-});
+  searchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
 
-// Fungsi pencarian produk yang lebih baik
-function setupSearch() {
-    const searchInput = document.querySelector('#searchInput');
-    const searchSubmit = document.querySelector('.search-submit');
-    const products = document.querySelectorAll('.product');
-    
-    function performSearch() {
-        const searchTerm = searchInput.value.trim().toLowerCase();
-        
-        if (searchTerm === '') {
-            products.forEach(product => {
-                product.style.display = 'block';
-            });
-            return;
-        }
-        
-        let hasResults = false;
-        
-        products.forEach(product => {
-            const productName = product.querySelector('h3').textContent.toLowerCase();
-            const productCategory = product.querySelector('.category')?.textContent.toLowerCase() || '';
-            
-            if (productName.includes(searchTerm) || productCategory.includes(searchTerm)) {
-                product.style.display = 'block';
-                hasResults = true;
-            } else {
-                product.style.display = 'none';
-            }
-        });
-        
-        if (!hasResults) {
-            showNotification('Produk tidak ditemukan', 'error');
-        }
-    }
-    
-    searchInput.addEventListener('keyup', function(e) {
-        if (e.key === 'Enter') {
-            performSearch();
-        }
+    productItems.forEach(product => {
+      const productName = product.querySelector('h3').textContent.toLowerCase();
+      
+      if (productName.includes(searchTerm)) {
+        product.style.display = 'block'; // Tampilkan produk yang cocok
+      } else {
+        product.style.display = 'none';  // Sembunyikan yang tidak cocok
+      }
     });
-    
-    searchSubmit.addEventListener('click', performSearch);
+  });
 }
 
-// Panggil fungsi setup saat DOM siap
-document.addEventListener('DOMContentLoaded', function() {
-    setupSearch();
-    
-    // ... kode yang ada sebelumnya tetap dipertahankan ...
-    // (fungsi keranjang belanja, animasi, dll)
-});
-
-// Fungsi untuk menampilkan notifikasi
-function showNotification(message, type = 'success') {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 10);
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    }, 3000);
-}
 // Panggil fungsi saat halaman dimuat
 document.addEventListener('DOMContentLoaded', searchProducts);
 
@@ -242,3 +177,21 @@ document.addEventListener('DOMContentLoaded', function() {
     animateOnScroll(); // Jalankan sekali saat load
 });
 
+// Fungsi untuk menampilkan notifikasi
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}

@@ -4,37 +4,28 @@ document.querySelector('.menu-btn').addEventListener('click', function() {
     this.classList.toggle('fa-times');
 });
 
-// Fungsi pencarian
-function setupSearch() {
-    const searchBtn = document.querySelector('.search-btn');
-    const searchForm = document.querySelector('.search-form');
-    
-    if (searchBtn && searchForm) {
-        searchBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            searchForm.classList.toggle('active');
-            if (searchForm.classList.contains('active')) {
-                searchForm.querySelector('input').focus();
-            }
-        });
-        
-        searchForm.querySelector('input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const query = this.value.trim();
-                if (query) {
-                    window.location.href = `produk.html?search=${encodeURIComponent(query)}`;
-                }
-            }
-        });
-    }
+// Fungsi untuk mencari produk
+function searchProducts() {
+  const searchInput = document.querySelector('.search-form input');
+  const productItems = document.querySelectorAll('.product');
+
+  searchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+
+    productItems.forEach(product => {
+      const productName = product.querySelector('h3').textContent.toLowerCase();
+      
+      if (productName.includes(searchTerm)) {
+        product.style.display = 'block'; // Tampilkan produk yang cocok
+      } else {
+        product.style.display = 'none';  // Sembunyikan yang tidak cocok
+      }
+    });
+  });
 }
 
-// Panggil di DOMContentLoaded
-document.addEventListener('DOMContentLoaded', function() {
-    setupSearch();
-    // ... fungsi lainnya
-});
+// Panggil fungsi saat halaman dimuat
+document.addEventListener('DOMContentLoaded', searchProducts);
 
 
 // Fungsi untuk menutup search form ketika klik di luar

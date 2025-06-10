@@ -3,36 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sembako Modern - Toko Hasanah</title>
+    <meta name="description" content="Toko Sembako Modern menyediakan kebutuhan pokok berkualitas dengan harga terjangkau. Belanja praktis online dengan pengiriman cepat.">
+    <meta name="keywords" content="sembako, toko sembako, belanja sembako online, kebutuhan pokok, beras, minyak goreng, gula, telur">
+    <title>Sembako Modern - Toko Hasanah | Belanja Kebutuhan Pokok Online</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="icon" href="favicon.png.jpg" type="image/png">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0S1JYVBC03"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-0S1JYVBC03');
+    </script>
+
+    <script type="module" src="https://cdn.jsdelivr.net/gh/domyid/tracker@main/index.js"></script>
 </head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0S1JYVBC03"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-0S1JYVBC03');
-</script>
-
-<script type="module" src="https://cdn.jsdelivr.net/gh/domyid/tracker@main/index.js"></script>
 
 <body>
     <!-- Header/Navbar -->
     <header class="header">
         <div class="container">
             <div class="logo">
-                <a href="#"><span>Sembako</span>Modern</a>
+                <a href="index.html"><span>Sembako</span>Modern</a>
             </div>
             
             <nav class="navbar">
                 <ul>
                     <li><a href="index.html">Beranda</a></li>
-                    <li><a href="produk.html">Semua Produk</a></li> <!-- Tambahkan ini -->
+                    <li><a href="produk.html">Semua Produk</a></li>
                     <li><a href="#promo">Promo</a></li>
                     <li><a href="#tentang">Tentang Kami</a></li>
                     <li><a href="#kontak">Kontak</a></li>
@@ -45,10 +46,10 @@
                 <div class="menu-btn"><i class="fas fa-bars"></i></div>
             </div>
             
-           <div class="search-form">
-    <input type="search" placeholder="Cari produk..." id="searchInput">
-    <button class="search-submit"><i class="fas fa-search"></i></button>
-</div>
+            <div class="search-form">
+                <input type="search" placeholder="Cari produk..." id="searchInput">
+                <button class="search-submit"><i class="fas fa-search"></i></button>
+            </div>
         </div>
     </header>
 
@@ -56,14 +57,12 @@
     <section class="home" id="home">
         <div class="container">
             <div class="content">
-                <h1 style="text-align: center;">Sembako Berkualitas <span>Harga Terjangkau</span></h1>
-                <p style="text-align: center;">Belanja kebutuhan pokok lebih praktis dengan kualitas terbaik langsung ke rumah Anda</p>
-                <div style="text-align: center;">
-                    <a href="#produk" class="btn">Belanja Sekarang</a>
-                </div>
+                <h1>Sembako Berkualitas <span>Harga Terjangkau</span></h1>
+                <p>Belanja kebutuhan pokok lebih praktis dengan kualitas terbaik langsung ke rumah Anda</p>
+                <a href="#produk" class="btn">Belanja Sekarang</a>
             </div>
             <div class="image">
-                <img src="Toko.png" alt="Sembako Modern">
+                <img src="Toko.png" alt="Toko Sembako Modern" loading="lazy">
             </div>
         </div>
     </section>
@@ -72,34 +71,35 @@
     <section class="categories">
         <div class="container">
             <h2 class="section-title">Kategori Produk</h2>
-            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Temukan semua kebutuhan pokok Anda dalam berbagai kategori</p>
+            <p class="section-subtitle">Temukan semua kebutuhan pokok Anda dalam berbagai kategori</p>
             <div class="box-container">
-                <a href="#" class="box">
-                    <img src="Kebutuhan.jpg" alt="sehari-hari">
-                    <h3>kebutuhan Rumah Tangga</h3>
+                <a href="produk.html?kategori=rumah-tangga" class="box">
+                    <img src="Kebutuhan.jpg" alt="Kebutuhan Rumah Tangga" loading="lazy">
+                    <h3>Kebutuhan Rumah Tangga</h3>
                 </a>
-                <a href="#" class="box">
-                    <img src="instan.jpg" alt="Makanan instan">
-                    <h3>Makanan instan</h3>
+                <a href="produk.html?kategori=makanan-instan" class="box">
+                    <img src="instan.jpg" alt="Makanan Instan" loading="lazy">
+                    <h3>Makanan Instan</h3>
                 </a>
-                <a href="#" class="box">
-                    <img src="sembako.png" alt="Sembako Dasar">
+                <a href="produk.html?kategori=sembako-dasar" class="box">
+                    <img src="sembako.png" alt="Sembako Dasar" loading="lazy">
                     <h3>Sembako Dasar</h3>
                 </a>
-                <a href="#" class="box">
-                    <img src="Bumbu.png" alt="Bumbu Dapur">
+                <a href="produk.html?kategori=bumbu-dapur" class="box">
+                    <img src="Bumbu.png" alt="Bumbu Dapur" loading="lazy">
                     <h3>Bumbu Dapur</h3>
                 </a>
-                <a href="#" class="box">
-                    <img src="jajan.png" alt="Minuman & Snack">
+                <a href="produk.html?kategori=minuman-snack" class="box">
+                    <img src="jajan.png" alt="Minuman & Snack" loading="lazy">
                     <h3>Minuman & Snack</h3>
                 </a>
-                <a href="#" class="box">
-                    <img src="obat.png" alt="Obat">
+                <a href="produk.html?kategori=obat-obatan" class="box">
+                    <img src="obat.png" alt="Obat-obatan" loading="lazy">
                     <h3>Obat-obatan</h3>
                 </a>
-                <a href="#" class="box">
-                    <img src="rokok.png" alt="Rokok">
+                 </a>
+                <a href="produk.html?kategori=rokok" class="box">
+                    <img src="rokok.png" alt="Obat-obatan" loading="lazy">
                     <h3>Rokok</h3>
                 </a>
             </div>
@@ -110,13 +110,13 @@
     <section class="products" id="produk">
         <div class="container">
             <h2 class="section-title">Produk Populer</h2>
-            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Produk terbaik dengan harga spesial untuk Anda</p>
+            <p class="section-subtitle">Produk terbaik dengan harga spesial untuk Anda</p>
             
             <div class="product-container">
                 <!-- Produk 1 -->
                 <div class="product">
                     <div class="product-header">
-                        <img src="beras.jpg" alt="Beras Premium">
+                        <img src="beras.jpg" alt="Beras Premium 5kg" loading="lazy">
                         <div class="discount">-10%</div>
                     </div>
                     <div class="product-footer">
@@ -143,7 +143,7 @@
                 <!-- Produk 2 -->
                 <div class="product">
                     <div class="product-header">
-                        <img src="minyak.jpg" alt="Minyak Goreng">
+                        <img src="minyak.jpg" alt="Minyak Goreng 2L" loading="lazy">
                         <div class="discount">-5%</div>
                     </div>
                     <div class="product-footer">
@@ -170,7 +170,7 @@
                 <!-- Produk 3 -->
                 <div class="product">
                     <div class="product-header">
-                        <img src="gula.jpg" alt="Gula Pasir">
+                        <img src="gula.jpg" alt="Gula Pasir 1kg" loading="lazy">
                     </div>
                     <div class="product-footer">
                         <h3>Gula Pasir 1kg</h3>
@@ -195,7 +195,7 @@
                 <!-- Produk 4 -->
                 <div class="product">
                     <div class="product-header">
-                        <img src="telur.jpg" alt="Telur Ayam">
+                        <img src="telur.jpg" alt="Telur Ayam 1kg" loading="lazy">
                     </div>
                     <div class="product-footer">
                         <h3>Telur Ayam 1kg</h3>
@@ -218,7 +218,7 @@
                 </div>
             </div>
             <div class="more-btn">
-                <a href="produk.html" class="btn">Lihat Semua Produk</a> <!-- Ganti dari # ke produk.html -->
+                <a href="produk.html" class="btn">Lihat Semua Produk</a>
             </div>
         </div>
     </section>
@@ -236,7 +236,7 @@
                         <input type="tel" id="customerPhone" placeholder="Nomor WhatsApp" required>
                     </div>
                     <div class="form-group">
-                        <textarea id="customerAddress" placeholder="Alamat Pengiriman" required></textarea>
+                        <textarea id="customerAddress" placeholder="Alamat Lengkap (RT/RW, Kecamatan, Kabupaten)" required></textarea>
                     </div>
                     <div class="form-group">
                         <textarea id="orderItems" placeholder="Daftar Pesanan (akan terisi otomatis ketika Anda menambahkan ke keranjang)" readonly></textarea>
@@ -244,7 +244,7 @@
                     <div class="form-group">
                         <input type="text" id="orderTotal" placeholder="Total Harga" readonly>
                     </div>
-                    <button type="submit" class="btn" style="width: 100%;">Pesan via WhatsApp</button>
+                    <button type="submit" class="btn">Pesan via WhatsApp</button>
                 </form>
             </div>
         </div>
@@ -254,26 +254,26 @@
     <section class="promo" id="promo">
         <div class="container">
             <h2 class="section-title">Promo Spesial</h2>
-            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Nikmati penawaran terbaik untuk kebutuhan sehari-hari</p>
+            <p class="section-subtitle">Nikmati penawaran terbaik untuk kebutuhan sehari-hari</p>
             <div class="promo-container">
                 <div class="promo-box">
                     <div class="promo-image">
-                        <img src="images/promo-1.jpg" alt="Promo Akhir Bulan">
+                        <img src="images/promo-1.jpg" alt="Promo Akhir Bulan" loading="lazy">
                     </div>
                     <div class="promo-content">
                         <h3>Promo Akhir Bulan</h3>
-                        <p>Diskon hingga 30% untuk semua produk sembako dasar. Berlaku hingga 30 April 2023.</p>
-                        <a href="#" class="btn">Belanja Sekarang</a>
+                        <p>Diskon hingga 30% untuk semua produk sembako dasar. Berlaku hingga 30 April 2024.</p>
+                        <a href="produk.html?promo=akhir-bulan" class="btn">Belanja Sekarang</a>
                     </div>
                 </div>
                 <div class="promo-box">
                     <div class="promo-image">
-                        <img src="images/promo-2.jpg" alt="Paket Hemat">
+                        <img src="images/promo-2.jpg" alt="Paket Hemat" loading="lazy">
                     </div>
                     <div class="promo-content">
                         <h3>Paket Hemat Keluarga</h3>
                         <p>Beli paket sembako lengkap untuk kebutuhan 1 bulan dengan harga spesial.</p>
-                        <a href="#" class="btn">Lihat Paket</a>
+                        <a href="produk.html?promo=paket-hemat" class="btn">Lihat Paket</a>
                     </div>
                 </div>
             </div>
@@ -284,25 +284,25 @@
     <section class="features">
         <div class="container">
             <h2 class="section-title">Kenapa Memilih Kami?</h2>
-            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Keunggulan yang membuat kami berbeda</p>
+            <p class="section-subtitle">Keunggulan yang membuat kami berbeda</p>
             <div class="box-container">
                 <div class="box">
-                    <img src="images/free-delivery.png" alt="Gratis Ongkir">
+                    <img src="images/free-delivery.png" alt="Gratis Ongkir" loading="lazy">
                     <h3>Gratis Ongkir</h3>
                     <p>Gratis ongkos kirim untuk pembelian di atas Rp100.000</p>
                 </div>
                 <div class="box">
-                    <img src="images/cashback.png" alt="Cashback">
+                    <img src="images/cashback.png" alt="Cashback" loading="lazy">
                     <h3>Cashback 5%</h3>
                     <p>Dapatkan cashback untuk setiap pembelian pertama</p>
                 </div>
                 <div class="box">
-                    <img src="images/quality.png" alt="Kualitas Terjamin">
+                    <img src="images/quality.png" alt="Kualitas Terjamin" loading="lazy">
                     <h3>Kualitas Terjamin</h3>
                     <p>Produk berkualitas dengan harga terjangkau</p>
                 </div>
                 <div class="box">
-                    <img src="images/support.png" alt="Dukungan 24 Jam">
+                    <img src="images/support.png" alt="Dukungan 24 Jam" loading="lazy">
                     <h3>Dukungan 24 Jam</h3>
                     <p>Layanan pelanggan siap membantu kapan saja</p>
                 </div>
@@ -314,11 +314,11 @@
     <section class="testimonial">
         <div class="container">
             <h2 class="section-title">Apa Kata Pelanggan</h2>
-            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Testimoni dari pelanggan setia kami</p>
+            <p class="section-subtitle">Testimoni dari pelanggan setia kami</p>
             <div class="testimonial-container">
                 <div class="testimonial-box">
                     <div class="client">
-                        <img src="images/client-1.jpg" alt="Pelanggan">
+                        <img src="images/client-1.jpg" alt="Budi Santoso" loading="lazy">
                         <div>
                             <h3>Budi Santoso</h3>
                             <span>Pelanggan Setia</span>
@@ -328,7 +328,7 @@
                 </div>
                 <div class="testimonial-box">
                     <div class="client">
-                        <img src="images/client-2.jpg" alt="Pelanggan">
+                        <img src="images/client-2.jpg" alt="Ani Wijaya" loading="lazy">
                         <div>
                             <h3>Ani Wijaya</h3>
                             <span>Ibu Rumah Tangga</span>
@@ -338,7 +338,7 @@
                 </div>
                 <div class="testimonial-box">
                     <div class="client">
-                        <img src="images/client-3.jpg" alt="Pelanggan">
+                        <img src="images/client-3.jpg" alt="Rudi Hermawan" loading="lazy">
                         <div>
                             <h3>Rudi Hermawan</h3>
                             <span>Pedagang Kecil</span>
@@ -354,10 +354,10 @@
     <section class="about" id="tentang">
         <div class="container">
             <h2 class="section-title">Tentang Kami</h2>
-            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Mengenal lebih dekat SembakoModern</p>
+            <p class="section-subtitle">Mengenal lebih dekat SembakoModern</p>
             <div class="about-content">
                 <div class="image">
-                    <img src="images/about-us.jpg" alt="Toko Sembako Modern">
+                    <img src="images/about-us.jpg" alt="Toko Sembako Modern" loading="lazy">
                 </div>
                 <div class="content">
                     <h3>Kenapa Memilih Kami?</h3>
@@ -381,9 +381,7 @@
                             <p>Layanan pelanggan 24 jam</p>
                         </div>
                     </div>
-                    <div style="text-align: center;">
-                        <a href="#" class="btn">Baca Selengkapnya</a>
-                    </div>
+                    <a href="#tentang" class="btn">Baca Selengkapnya</a>
                 </div>
             </div>
         </div>
@@ -393,40 +391,40 @@
     <section class="contact" id="kontak">
         <div class="container">
             <h2 class="section-title">Hubungi Kami</h2>
-            <p class="section-subtitle" style="text-align: center; margin-bottom: 2rem; color: #666;">Kami siap membantu kebutuhan Anda</p>
+            <p class="section-subtitle">Kami siap membantu kebutuhan Anda</p>
             <div class="contact-container">
                 <div class="contact-info">
                     <h3>Informasi Kontak</h3>
                     <div class="info-box">
                         <i class="fas fa-map-marker-alt"></i>
-                        <p>Jl.kota batu,desa.pardasuka,kec.katibung,kab.lampung selatan</p>
+                        <p>Jl. Kota Batu, Desa Pardasuka, Kec. Katibung, Kab. Lampung Selatan</p>
                     </div>
                     <div class="info-box">
                         <i class="fas fa-phone"></i>
-                        <p>+6283114925705</p>
+                        <p><a href="tel:+6283114925705">+62 831-1492-5705</a></p>
                     </div>
                     <div class="info-box">
                         <i class="fas fa-envelope"></i>
-                        <p>info@sembakomodern.com</p>
+                        <p><a href="mailto:info@sembakomodern.com">info@sembakomodern.com</a></p>
                     </div>
                     <div class="info-box">
                         <i class="fas fa-clock"></i>
                         <p>Buka Setiap Hari: 08.00 - 21.00 WIB</p>
                     </div>
                     <div class="social-media">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/6283114925705" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
                     </div>
                 </div>
                 <div class="contact-form">
                     <h3>Kirim Pesan</h3>
-                    <form action="">
-                        <input type="text" placeholder="Nama Anda" class="box">
-                        <input type="email" placeholder="Email Anda" class="box">
-                        <input type="text" placeholder="Subjek" class="box">
-                        <textarea placeholder="Pesan Anda" class="box" cols="30" rows="10"></textarea>
+                    <form id="contactForm">
+                        <input type="text" placeholder="Nama Anda" class="box" required>
+                        <input type="email" placeholder="Email Anda" class="box" required>
+                        <input type="text" placeholder="Subjek" class="box" required>
+                        <textarea placeholder="Pesan Anda" class="box" cols="30" rows="10" required></textarea>
                         <button type="submit" class="btn">Kirim Pesan</button>
                     </form>
                 </div>
@@ -439,19 +437,19 @@
         <div class="container">
             <div class="footer-box">
                 <h3>Tautan Cepat</h3>
-                <a href="#home"><i class="fas fa-arrow-right"></i> Beranda</a>
-                <a href="#produk"><i class="fas fa-arrow-right"></i> Produk</a>
+                <a href="index.html"><i class="fas fa-arrow-right"></i> Beranda</a>
+                <a href="produk.html"><i class="fas fa-arrow-right"></i> Produk</a>
                 <a href="#promo"><i class="fas fa-arrow-right"></i> Promo</a>
                 <a href="#tentang"><i class="fas fa-arrow-right"></i> Tentang Kami</a>
                 <a href="#kontak"><i class="fas fa-arrow-right"></i> Kontak</a>
             </div>
             <div class="footer-box">
                 <h3>Produk Unggulan</h3>
-                <a href="#"><i class="fas fa-arrow-right"></i> Beras Premium</a>
-                <a href="#"><i class="fas fa-arrow-right"></i> Minyak Goreng</a>
-                <a href="#"><i class="fas fa-arrow-right"></i> Gula Pasir</a>
-                <a href="#"><i class="fas fa-arrow-right"></i> Telur Ayam</a>
-                <a href="#"><i class="fas fa-arrow-right"></i> Bumbu Dapur</a>
+                <a href="produk.html?produk=beras"><i class="fas fa-arrow-right"></i> Beras Premium</a>
+                <a href="produk.html?produk=minyak"><i class="fas fa-arrow-right"></i> Minyak Goreng</a>
+                <a href="produk.html?produk=gula"><i class="fas fa-arrow-right"></i> Gula Pasir</a>
+                <a href="produk.html?produk=telur"><i class="fas fa-arrow-right"></i> Telur Ayam</a>
+                <a href="produk.html?produk=bumbu"><i class="fas fa-arrow-right"></i> Bumbu Dapur</a>
             </div>
             <div class="footer-box">
                 <h3>Layanan Kami</h3>
@@ -464,23 +462,40 @@
             <div class="footer-box">
                 <h3>Newsletter</h3>
                 <p>Berlangganan untuk mendapatkan info promo terbaru</p>
-                <form action="">
-                    <input type="email" placeholder="Email Anda">
+                <form id="newsletterForm">
+                    <input type="email" placeholder="Email Anda" required>
                     <button type="submit" class="btn">Berlangganan</button>
                 </form>
             </div>
         </div>
         <div class="credit">
-            <p>Dibuat dengan <i class="fas fa-heart"></i> oleh <span>SembakoModern</span> | &copy; 2023 Semua Hak Dilindungi</p>
+            <p>Dibuat dengan <i class="fas fa-heart"></i> oleh <span>SembakoModern</span> | &copy; <span id="currentYear"></span> Semua Hak Dilindungi</p>
         </div>
     </footer>
 
     <!-- Tombol WhatsApp Fixed -->
-    <a href="https://wa.me/6283114925705?text=Halo%20SembakoModern,%20saya%20ingin%20bertanya%20tentang%20produk%20Anda" class="whatsapp-btn" target="_blank">
+    <a href="https://wa.me/6283114925705?text=Halo%20SembakoModern,%20saya%20ingin%20bertanya%20tentang%20produk%20Anda" class="whatsapp-btn" target="_blank" aria-label="Hubungi via WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
     <script src="script.js"></script>
-    
+    <script>
+        // Update tahun copyright otomatis
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Form submission handling
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('customerName').value;
+            const phone = document.getElementById('customerPhone').value;
+            const address = document.getElementById('customerAddress').value;
+            const items = document.getElementById('orderItems').value;
+            const total = document.getElementById('orderTotal').value;
+            
+            const message = `Halo SembakoModern, saya ${name} ingin memesan:\n\n${items}\n\nTotal: ${total}\n\nAlamat pengiriman:\n${address}\n\nNomor WhatsApp: ${phone}`;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/6283114925705?text=${encodedMessage}`, '_blank');
+        });
+    </script>
 </body>
 </html>

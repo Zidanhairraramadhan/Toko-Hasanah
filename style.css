@@ -980,7 +980,7 @@ body {
 }
 /* Halaman Produk */
 .all-products {
-    padding: 8rem 0 4rem;
+    padding-top: 80px; 
 }
 
 .category-filter {

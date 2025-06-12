@@ -1,197 +1,226 @@
-// Fungsi untuk toggle menu mobile
-document.querySelector('.menu-btn').addEventListener('click', function() {
-    document.querySelector('.navbar').classList.toggle('active');
-    this.classList.toggle('fa-times');
-});
-
-// Fungsi untuk mencari produk
-function searchProducts() {
-  const searchInput = document.querySelector('.search-form input');
-  const productItems = document.querySelectorAll('.product');
-
-  searchInput.addEventListener('input', function() {
-    const searchTerm = this.value.toLowerCase();
-
-    productItems.forEach(product => {
-      const productName = product.querySelector('h3').textContent.toLowerCase();
-      
-      if (productName.includes(searchTerm)) {
-        product.style.display = 'block'; // Tampilkan produk yang cocok
-      } else {
-        product.style.display = 'none';  // Sembunyikan yang tidak cocok
-      }
-    });
-  });
-}
-
-// Panggil fungsi saat halaman dimuat
-document.addEventListener('DOMContentLoaded', searchProducts);
-
-
-// Fungsi untuk menutup search form ketika klik di luar
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('.search-btn') && !e.target.closest('.search-form')) {
-        document.querySelector('.search-form').classList.remove('active');
-    }
-});
-
-// Fungsi untuk smooth scrolling
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-        
-        // Tutup navbar mobile jika terbuka
-        if (document.querySelector('.navbar').classList.contains('active')) {
-            document.querySelector('.navbar').classList.remove('active');
-            document.querySelector('.menu-btn').classList.remove('fa-times');
-        }
-    });
-});
-
-// Fungsi untuk menambahkan efek scroll pada header
-window.addEventListener('scroll', function() {
-    const header = document.querySelector('.header');
-    header.classList.toggle('sticky', window.scrollY > 0);
-});
-
-// Fungsi untuk keranjang belanja dan pemesanan WhatsApp
+// Menunggu hingga seluruh konten halaman dimuat sebelum menjalankan skrip
 document.addEventListener('DOMContentLoaded', function() {
+
+    // === ELEMEN DOM YANG SERING DIGUNAKAN ===
+    const header = document.querySelector('.header');
+    const menuBtn = document.querySelector('.menu-btn');
+    const navbar = document.querySelector('.navbar');
+    const searchBtn = document.querySelector('.search-btn');
+    const searchForm = document.querySelector('.search-form');
+    const searchInput = document.getElementById('searchInput');
+    const productItems = document.querySelectorAll('.product');
+    const cartCount = document.querySelector('.cart-count');
+    const cartIcon = document.querySelector('.cart-btn');
+    const orderForm = document.getElementById('orderForm');
+    const allNavLinks = document.querySelectorAll('a[href^="#"]');
+
+    // === STATE APLIKASI ===
     let cart = [];
     let total = 0;
-    
-    // Tambahkan produk ke keranjang
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const product = this.getAttribute('data-product');
-            const price = parseInt(this.getAttribute('data-price'));
-            
-            cart.push({ product, price });
-            total += price;
-            
-            // Update tampilan keranjang
-            updateCartDisplay();
-            
-            // Update form pemesanan
-            updateOrderForm();
-            
-            // Animasi tambah ke keranjang
-            animateAddToCart(this);
+
+    // ===================================
+    // === FUNGSI-FUNGSI UTAMA ===
+    // ===================================
+
+    // --- 1. Fungsi untuk Toggle Menu Mobile ---
+    function toggleMenu() {
+        navbar.classList.toggle('active');
+        // Kita tidak perlu toggle ikon di sini karena akan ditangani oleh penutupan otomatis
+    }
+
+    // --- 2. Fungsi untuk Menampilkan/Menyembunyikan Form Pencarian ---
+    function toggleSearchForm() {
+        searchForm.classList.toggle('active');
+        if (searchForm.classList.contains('active')) {
+            searchInput.focus();
+        }
+    }
+
+    // --- 3. Fungsi untuk menyaring produk berdasarkan input pencarian ---
+    function filterProducts() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        let productsFound = false;
+
+        productItems.forEach(product => {
+            const productName = product.querySelector('h3').textContent.toLowerCase();
+            const isMatch = productName.includes(searchTerm);
+            product.style.display = isMatch ? 'flex' : 'none';
+            if(isMatch) productsFound = true;
         });
-    });
-    
-    // Fungsi untuk update tampilan keranjang
-    function updateCartDisplay() {
-        document.querySelector('.cart-count').textContent = cart.length;
         
-        // Tambahkan animasi keranjang
-        const cartBtn = document.querySelector('.cart-btn');
-        cartBtn.classList.add('animate');
+        // Menampilkan pesan jika tidak ada produk yang ditemukan
+        const noResultsMessage = document.querySelector('.no-results');
+        if (!productsFound && !noResultsMessage) {
+            const container = document.querySelector('.product-container');
+            if(container) {
+                 const message = document.createElement('p');
+                 message.className = 'no-results';
+                 message.textContent = 'Produk tidak ditemukan.';
+                 container.appendChild(message);
+            }
+        } else if (productsFound && noResultsMessage) {
+            noResultsMessage.remove();
+        }
+    }
+
+    // --- 4. Fungsi untuk Smooth Scrolling ---
+    function smoothScroll(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+        
+        // Tutup navbar mobile jika terbuka setelah klik
+        if (navbar.classList.contains('active')) {
+            navbar.classList.remove('active');
+        }
+    }
+
+    // --- 5. Fungsi untuk Header Sticky ---
+    function handleStickyHeader() {
+        header.classList.toggle('sticky', window.scrollY > 0);
+    }
+
+    // --- 6. Fungsi untuk Menambahkan Produk ke Keranjang ---
+    function addToCart(e) {
+        e.preventDefault();
+        const productData = this.dataset;
+        const product = {
+            name: productData.product,
+            price: parseInt(productData.price)
+        };
+
+        cart.push(product);
+        total += product.price;
+
+        updateCartDisplay();
+        updateOrderForm();
+        animateAddToCart(this);
+        showNotification(`${product.name} telah ditambahkan ke keranjang!`);
+    }
+
+    // --- 7. Fungsi untuk Update Tampilan Keranjang ---
+    function updateCartDisplay() {
+        cartCount.textContent = cart.length;
+        cartIcon.classList.add('animate');
         setTimeout(() => {
-            cartBtn.classList.remove('animate');
+            cartIcon.classList.remove('animate');
         }, 500);
     }
     
-    // Fungsi untuk animasi tombol tambah ke keranjang
+    // --- 8. Fungsi untuk Animasi Tombol Add to Cart ---
     function animateAddToCart(button) {
+        const originalIcon = button.innerHTML;
         button.innerHTML = '<i class="fas fa-check"></i>';
         button.classList.add('added');
+        
+        // Nonaktifkan tombol sementara
+        button.disabled = true;
+
         setTimeout(() => {
-            button.innerHTML = '<i class="fas fa-shopping-cart"></i>';
+            button.innerHTML = originalIcon;
             button.classList.remove('added');
-        }, 1000);
+            button.disabled = false; // Aktifkan kembali tombol
+        }, 1500);
     }
     
-    // Fungsi untuk update form pemesanan
+    // --- 9. Fungsi untuk Update Form Pemesanan ---
     function updateOrderForm() {
-        const orderItems = document.getElementById('orderItems');
-        const orderTotal = document.getElementById('orderTotal');
+        const orderItemsEl = document.getElementById('orderItems');
+        const orderTotalEl = document.getElementById('orderTotal');
         
-        let itemsText = '';
-        cart.forEach(item => {
-            itemsText += `- ${item.product} (Rp${item.price.toLocaleString('id-ID')})\n`;
-        });
+        const itemsText = cart.map(item => `- ${item.name} (Rp${item.price.toLocaleString('id-ID')})`).join('\n');
         
-        orderItems.value = itemsText;
-        orderTotal.value = `Rp${total.toLocaleString('id-ID')}`;
+        orderItemsEl.value = itemsText;
+        orderTotalEl.value = `Rp${total.toLocaleString('id-ID')}`;
     }
-    
-    // Submit form pemesanan
-    document.getElementById('orderForm').addEventListener('submit', function(e) {
+
+    // --- 10. Fungsi untuk Mengirim Pesanan via WhatsApp ---
+    function submitOrder(e) {
         e.preventDefault();
-        
+
         const name = document.getElementById('customerName').value;
         const phone = document.getElementById('customerPhone').value;
         const address = document.getElementById('customerAddress').value;
         const items = document.getElementById('orderItems').value;
-        const total = document.getElementById('orderTotal').value;
-        
-        // Validasi form
+        const totalValue = document.getElementById('orderTotal').value;
+
         if (!name || !phone || !address || cart.length === 0) {
-            alert('Harap lengkapi semua field dan tambahkan minimal 1 produk ke keranjang');
+            showNotification('Harap lengkapi data dan pilih produk!', 'error');
             return;
         }
-        
-        // Format pesan WhatsApp
-        const message = `Halo SembakoModern, saya ingin memesan:\n\n${items}\nTotal: ${total}\n\nNama: ${name}\nNo. HP: ${phone}\nAlamat: ${address}`;
-        
-        // Encode message untuk URL
+
+        const message = `Halo SembakoModern, saya ingin memesan:\n\n${items}\n\n*Total: ${totalValue}*\n\n*Data Pemesan:*\nNama: ${name}\nNo. HP/WA: ${phone}\nAlamat Pengiriman: ${address}\n\nTerima kasih.`;
         const encodedMessage = encodeURIComponent(message);
         
-        // Redirect ke WhatsApp
         window.open(`https://wa.me/6283114925705?text=${encodedMessage}`, '_blank');
         
-        // Reset form dan keranjang setelah pengiriman
-        resetCart();
-    });
-    
-    // Fungsi untuk reset keranjang
-    function resetCart() {
-        cart = [];
-        total = 0;
-        document.querySelector('.cart-count').textContent = '0';
-        document.getElementById('orderItems').value = '';
-        document.getElementById('orderTotal').value = '';
-        document.getElementById('orderForm').reset();
+        resetCartAndForm();
     }
     
-    // Animasi untuk elemen ketika muncul di viewport
-    const animateOnScroll = function() {
-        const elements = document.querySelectorAll('.product, .promo-box, .testimonial-box, .feature');
-        
-        elements.forEach(element => {
-            const elementPosition = element.getBoundingClientRect().top;
-            const screenPosition = window.innerHeight / 1.2;
-            
-            if (elementPosition < screenPosition) {
-                element.classList.add('animated');
-            }
-        });
-    };
-    
-    window.addEventListener('scroll', animateOnScroll);
-    animateOnScroll(); // Jalankan sekali saat load
-});
+    // --- 11. Fungsi untuk Reset Keranjang dan Form ---
+    function resetCartAndForm() {
+        cart = [];
+        total = 0;
+        updateCartDisplay();
+        orderForm.reset();
+        document.getElementById('orderItems').value = '';
+        document.getElementById('orderTotal').value = '';
+    }
 
-// Fungsi untuk menampilkan notifikasi
-function showNotification(message, type = 'success') {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
+    // --- 12. Fungsi untuk Menutup Elemen saat Klik di Luar ---
+    function handleClickOutside(e) {
+        if (!menuBtn.contains(e.target) && !navbar.contains(e.target)) {
+            navbar.classList.remove('active');
+        }
+        if (!searchBtn.contains(e.target) && !searchForm.contains(e.target)) {
+            searchForm.classList.remove('active');
+        }
+    }
     
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 10);
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
+    // --- 13. Fungsi untuk Menampilkan Notifikasi ---
+    function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
         setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    }, 3000);
-}
+            notification.classList.add('show');
+        }, 10);
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+    
+    // ===================================
+    // === EVENT LISTENERS ===
+    // ===================================
+
+    // Header & Navigasi
+    menuBtn.addEventListener('click', toggleMenu);
+    searchBtn.addEventListener('click', toggleSearchForm);
+    allNavLinks.forEach(anchor => anchor.addEventListener('click', smoothScroll));
+
+    // Pencarian Produk
+    searchInput.addEventListener('keyup', filterProducts);
+
+    // Keranjang & Pemesanan
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', addToCart);
+    });
+    orderForm.addEventListener('submit', submitOrder);
+    
+    // Event Listener Global
+    window.addEventListener('scroll', handleStickyHeader);
+    document.addEventListener('click', handleClickOutside);
+});

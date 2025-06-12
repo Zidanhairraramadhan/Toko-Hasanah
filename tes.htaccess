@@ -1,0 +1,32 @@
+# MENGAKTIFKAN BROWSER CACHING
+# Kode ini memberitahu browser pengunjung untuk menyimpan file-file tertentu
+# agar tidak perlu diunduh ulang saat mereka mengunjungi halaman lagi.
+
+<IfModule mod_expires.c>
+  # Mengaktifkan fitur "kadaluarsa" konten
+  ExpiresActive On
+
+  # Atur waktu cache default
+  ExpiresDefault "access plus 1 month"
+
+  # Atur cache untuk tipe file spesifik
+
+  # Gambar (disimpan selama 1 tahun karena jarang berubah)
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+
+  # CSS, JavaScript (disimpan selama 1 bulan, karena mungkin ada update)
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType text/javascript "access plus 1 month"
+
+  # Tipe file lainnya
+  ExpiresByType application/pdf "access plus 1 month"
+  ExpiresByType application/x-shockwave-flash "access plus 1 month"
+</IfModule>
+
+# AKHIR DARI BLOK BROWSER CACHING

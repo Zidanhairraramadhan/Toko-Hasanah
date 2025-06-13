@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Semua Produk - Sembako Modern</title>
+    
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.png.jpg" type="image/png">
 </head>
-
 <body>
-
     <header class="header">
         <div class="container">
             <div class="logo">
@@ -21,21 +21,20 @@
             <nav class="navbar" id="navbar">
                 <ul>
                     <li><a href="index.html">Beranda</a></li>
-                    <li><a href="produk.html">Produk</a></li>
-                    <li><a href="index.html#promo">Promo</a></li>
+                    <li><a href="produk.html" class="active">Produk</a></li> <li><a href="index.html#promo">Promo</a></li>
                     <li><a href="index.html#tentang">Tentang Kami</a></li>
                     <li><a href="index.html#kontak">Kontak</a></li>
                 </ul>
             </nav>
 
             <div class="icons">
-                <div class="search-btn" id="search-btn"><i class="fas fa-search"></i></div>
-                <div class="cart-btn"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></div>
-                <div class="menu-btn" id="menu-btn"><i class="fas fa-bars"></i></div>
+                 <div class="search-btn" id="search-btn" aria-label="Cari Produk"><i class="fas fa-search"></i></div>
+                <div class="cart-btn" aria-label="Keranjang Belanja"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></div>
+                <div class="menu-btn" id="menu-btn" aria-label="Tampilkan Menu"><i class="fas fa-bars"></i></div>
             </div>
 
             <div class="search-form" id="search-form">
-                <input type="search" placeholder="Cari semua produk..." id="searchInput">
+                <input type="search" placeholder="Cari semua produk..." id="searchInput" aria-label="Input Pencarian">
                 <label for="searchInput" class="fas fa-search"></label>
             </div>
         </div>
@@ -62,39 +61,6 @@
         </div>
     </section>
 
-    <section class="order-section">
-        <div class="container">
-            <div class="order-form">
-                <h3>Pesan Sekarang</h3>
-                <form id="orderForm">
-                    <div class="form-group">
-                        <input type="text" id="customerName" placeholder="Nama Lengkap" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" id="customerPhone" placeholder="Nomor WhatsApp" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="customerAddress" placeholder="Alamat Pengiriman" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="orderItems" placeholder="Daftar Pesanan (akan terisi otomatis)" readonly></textarea>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="orderTotal" placeholder="Total Harga" readonly>
-                    </div>
-                    <button type="submit" class="btn">Pesan via WhatsApp</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        </footer>
-
-    <a href="https://wa.me/6283114925705" class="whatsapp-btn" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-    <script src="produk.js"></script> </body>
-
+    <script src="produk.js" defer></script>
+</body>
 </html>

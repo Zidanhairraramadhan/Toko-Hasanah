@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     const errorMessage = document.getElementById('errorMessage');
-    const API_URL = 'http://localhost:3000/api/login';
+    const API_URL = '/api/login';
 
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {

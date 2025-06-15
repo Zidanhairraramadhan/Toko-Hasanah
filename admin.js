@@ -1,80 +1,86 @@
-document.addEventListener('DOMContentLoaded', async function() {
-    // === Verifikasi Login di Awal Halaman ===
-    try {
-        const authResponse = await fetch('http://localhost:3000/api/check-auth', {credentials: 'include'});
-        const authData = await authResponse.json();
-        if (!authData.loggedIn) {
-            // Jika tidak login, tendang ke halaman login
-            window.location.href = 'login.html';
-            return; // Hentikan eksekusi sisa skrip
-        }
-    } catch (error) {
-        // Jika server tidak bisa dihubungi, tendang juga
-        window.location.href = 'login.html';
-        return;
+// =================================================================
+// ==      KODE SERVER.JS DENGAN PERBAIKAN STATIC FILE      ==
+// =================================================================
+
+// 1. IMPORT MODUL
+const express = require('express');
+const sqlite3 = require('sqlite3').verbose();
+const { open } = require('sqlite');
+const path = require('path'); // Modul 'path' sangat penting untuk ini
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+
+// 2. BUAT APLIKASI EXPRESS
+const app = express();
+const PORT = 3000;
+
+
+// 3. MIDDLEWARE & KONFIGURASI
+
+// PENTING: Mendefinisikan lokasi folder frontend (satu level di atas folder 'backend')
+const publicDirectoryPath = path.join(__dirname, '../');
+
+// Log untuk debugging: Tampilkan path yang akan digunakan
+console.log(`Aplikasi akan menyajikan file dari direktori: ${publicDirectoryPath}`);
+
+// Middleware untuk menyajikan semua file HTML, CSS, JS dari folder utama
+app.use(express.static(publicDirectoryPath));
+
+// Middleware lain yang sudah ada
+app.use(express.json());
+app.use(cookieParser());
+app.use(session({
+    secret: 'kunci-rahasia-yang-super-aman-dan-unik',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 }
+}));
+
+
+// === Kredensial Admin & Inisialisasi Database (Tidak ada perubahan) ===
+let db;
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = '12345';
+const initialProducts = [ /* ... data 18 produk Anda ... */ ];
+async function seedDatabase() { /* ... fungsi seeding ... */ }
+async function initializeDatabase() {
+  db = await open({ filename: './sembako.db', driver: sqlite3.Database });
+  await db.exec(`CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price INTEGER NOT NULL, discount INTEGER, image TEXT, rating REAL, category TEXT, description TEXT, stock INTEGER DEFAULT 0)`);
+  const row = await db.get('SELECT COUNT(*) as count FROM products');
+  if (row.count === 0) {
+      console.log('Database kosong, mengisi dengan data awal...');
+      // await seedDatabase(); // Anda bisa aktifkan ini jika database kosong
+  } else {
+      console.log('Database sudah berisi data.');
+  }
+}
+
+// === Middleware "Penjaga" (Tidak ada perubahan) ===
+const checkAuth = (req, res, next) => {
+    if (req.session.loggedIn) {
+        next();
+    } else {
+        res.status(401).json({ message: 'Akses ditolak. Silakan login.' });
     }
-    // ==========================================
+};
+
+// ===========================================
+// 4. API ENDPOINTS (Tidak ada perubahan)
+// ===========================================
+
+// Endpoint Autentikasi
+app.post('/api/login', (req, res) => { /* ... kode tidak berubah ... */ });
+app.get('/api/check-auth', (req, res) => { /* ... kode tidak berubah ... */ });
+app.post('/api/logout', (req, res) => { /* ... kode tidak berubah ... */ });
+
+// Endpoint Produk (CRUD)
+app.get('/api/products', async (req, res) => { /* ... kode tidak berubah ... */ });
+app.post('/api/products', checkAuth, async (req, res) => { /* ... kode tidak berubah ... */ });
+app.put('/api/products/:id', checkAuth, async (req, res) => { /* ... kode tidak berubah ... */ });
+app.delete('/api/products/:id', checkAuth, async (req, res) => { /* ... kode tidak berubah ... */ });
 
 
-    const API_URL = 'http://localhost:3000/api/products';
-    const SERVER_URL = 'http://localhost:3000';
-    const form = document.getElementById('productForm');
-    const tableBody = document.getElementById('productTableBody');
-    const productIdInput = document.getElementById('productId');
-    const clearBtn = document.getElementById('clearBtn');
-    const logoutBtn = document.getElementById('logoutBtn'); // Tombol logout baru
-
-    async function fetchAndRenderProducts() {
-        // ... fungsi ini sama persis seperti sebelumnya ...
-        try {
-            const response = await fetch(API_URL);
-            const products = await response.json();
-            tableBody.innerHTML = '';
-            products.forEach(product => {
-                const imageSrc = product.image ? `${SERVER_URL}/${product.image}` : 'images/default.png';
-                tableBody.innerHTML += `<tr><td><img src="${imageSrc}" alt="${product.name}"></td><td>${product.name}</td><td>Rp${product.price.toLocaleString('id-ID')}</td><td>${product.stock}</td><td class="actions"><button class="btn-edit" onclick="window.handleEdit(${product.id})">Edit</button><button class="btn-delete" onclick="window.handleDelete(${product.id})">Hapus</button></td></tr>`;
-            });
-        } catch(e){ console.error(e) }
-    }
-
-    // ... fungsi handleEdit dan handleDelete sama persis seperti sebelumnya ...
-    window.handleEdit = async (id) => { /* ... (kode tidak berubah) ... */ };
-    window.handleDelete = async (id) => { /* ... (kode tidak berubah) ... */ };
-    
-    form.addEventListener('submit', async function(e) {
-        // ... fungsi ini sama persis seperti sebelumnya ...
-        e.preventDefault();
-        const id = productIdInput.value;
-        const productData = { /* ... (ambil data form) ... */ };
-        const method = id ? 'PUT' : 'POST';
-        const url = id ? `${API_URL}/${id}` : API_URL;
-
-        // Penting: sertakan credentials agar cookie sesi terkirim
-        await fetch(url, {
-            method: method,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(productData),
-            credentials: 'include' 
-        });
-        clearForm();
-        fetchAndRenderProducts();
-    });
-
-    function clearForm() {
-        form.reset();
-        productIdInput.value = '';
-    }
-    clearBtn.addEventListener('click', clearForm);
-
-    // Fungsi untuk Logout
-    logoutBtn.addEventListener('click', async () => {
-        await fetch('http://localhost:3000/api/logout', { 
-            method: 'POST',
-            credentials: 'include'
-        });
-        window.location.href = 'login.html'; // Arahkan ke halaman login setelah logout
-    });
-
-    // Muat produk saat halaman pertama kali dibuka
-    fetchAndRenderProducts();
-});
+// 5. JALANKAN SERVER
+initializeDatabase().then(() => {
+    app.listen(PORT, () => console.log(`Server backend berjalan di http://localhost:${PORT}`));
+}).catch(err => console.error("Gagal inisialisasi database:", err));

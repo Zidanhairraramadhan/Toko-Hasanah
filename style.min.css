@@ -1105,4 +1105,145 @@ body {
     background: #e74c3c;
 }
 
+/* ============================================== */
+/* === GAYA TAMBAHAN UNTUK HALAMAN ADMIN (WAJIB) === */
+/* Tempel ini di bagian paling bawah style.css Anda */
+/* ============================================== */
+
+.admin-container { 
+    padding: 100px 2rem 2rem; 
+    max-width: 1100px; 
+    margin: auto; 
+    background-color: #f8f9fa;
+}
+
+.admin-form { 
+    background: #fff; 
+    padding: 2rem; 
+    border-radius: 8px; 
+    margin-bottom: 2rem; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+}
+
+.admin-form h3 { 
+    margin-top: 0; 
+    color: #27ae60; 
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.admin-form .form-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 1.5rem; 
+}
+
+.admin-form .form-group { 
+    margin-bottom: 1rem; 
+}
+
+.admin-form label { 
+    display: block; 
+    margin-bottom: .5rem; 
+    font-weight: 600; 
+    color: #333; 
+}
+
+.admin-form input, 
+.admin-form select, 
+.admin-form textarea { 
+    width: 100%; 
+    padding: .75rem; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    box-sizing: border-box; 
+    font-family: inherit;
+}
+
+.admin-form .full-width { 
+    grid-column: 1 / -1; 
+}
+
+.product-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    background: #fff; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    font-size: 0.9rem;
+}
+
+.product-table th, 
+.product-table td { 
+    border: 1px solid #ddd; 
+    padding: .8rem; 
+    text-align: left; 
+    vertical-align: middle;
+}
+
+.product-table th { 
+    background: #e9ecef; 
+}
+
+.product-table img { 
+    width: 60px; 
+    height: 60px; 
+    object-fit: contain; 
+    border-radius: 5px; 
+    background-color: #f9f9f9;
+}
+
+.product-table .actions button { 
+    margin-right: 5px; 
+    padding: 5px 10px; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    color: white;
+}
+
+.product-table .actions .btn-edit { 
+    background-color: #ffc107; 
+    color: #000; 
+}
+
+.product-table .actions .btn-delete { 
+    background-color: #dc3545; 
+    color: #fff; 
+}
+/* GAYA UNTUK HALAMAN LOGIN */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+}
+.login-form {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+.login-form h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: var(--primary-color, #27ae60);
+}
+.error-message {
+    color: #dc3545;
+    margin-top: 1rem;
+    text-align: center;
+    min-height: 1.2em;
+}
+/* Di dalam file style.css */
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
 }

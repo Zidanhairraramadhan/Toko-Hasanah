@@ -1,100 +1,45 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Semua Produk - Sembako Modern</title>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.min.css">
-    <link rel="icon" href="favicon.webp" type="image/png">
 </head>
-
 <body>
-
     <header class="header">
         <div class="container">
-            <div class="logo">
-                <a href="index.html"><span>Sembako</span>Modern</a>
-            </div>
-
+            <div class="logo"><a href="index.html"><span>Sembako</span>Modern</a></div>
             <nav class="navbar" id="navbar">
                 <ul>
                     <li><a href="index.html">Beranda</a></li>
-                    <li><a href="produk.html">Produk</a></li>
-                    <li><a href="index.html#promo">Promo</a></li>
-                    <li><a href="index.html#tentang">Tentang Kami</a></li>
-                    <li><a href="index.html#kontak">Kontak</a></li>
+                    <li><a href="produk.html" class="active">Produk</a></li>
+                    <li><a href="admin.html">Admin</a></li>
                 </ul>
             </nav>
-
             <div class="icons">
-                <div class="search-btn" id="search-btn"><i class="fas fa-search"></i></div>
-                <div class="cart-btn"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></div>
-                <div class="menu-btn" id="menu-btn"><i class="fas fa-bars"></i></div>
-            </div>
-
-            <div class="search-form" id="search-form">
-                <input type="search" placeholder="Cari semua produk..." id="searchInput">
-                <label for="searchInput" class="fas fa-search"></label>
+                <div class="menu-btn" id="menu-btn" aria-label="Tampilkan Menu"><i class="fas fa-bars"></i></div>
             </div>
         </div>
     </header>
 
-    <section class="all-products">
+    <main class="all-products">
         <div class="container">
-            <h2 class="section-title">Semua Produk</h2>
-            <p class="section-subtitle">Temukan semua kebutuhan pokok Anda di sini</p>
-
-            <div class="category-filter">
-                <button class="filter-btn active" data-category="all">Semua</button>
-                <button class="filter-btn" data-category="Kebutuhan Rumah Tangga">Kebutuhan Rumah Tangga</button>
-                <button class="filter-btn" data-category="Makanan Instan">Makanan Instan</button>
-                <button class="filter-btn" data-category="Sembako Dasar">Sembako Dasar</button>
-                <button class="filter-btn" data-category="Bumbu Dapur">Bumbu Dapur</button>
-                <button class="filter-btn" data-category="Minuman">Minuman</button>
-                <button class="filter-btn" data-category="Obat Obatan">Obat Obatan</button>
-                <button class="filter-btn" data-category="Rokok">Rokok</button>
+            <h2 class="section-title">Semua Produk Kami</h2>
+            <div class="toolbar">
+                <input type="search" placeholder="Cari nama produk..." id="searchInput" aria-label="Cari Produk">
+                <select id="categoryFilter" aria-label="Filter Kategori">
+                    <option value="all">Semua Kategori</option>
+                </select>
             </div>
-
             <div class="products-grid" id="productsGrid">
                 </div>
         </div>
-    </section>
-
-    <section class="order-section">
-        <div class="container">
-            <div class="order-form">
-                <h3>Pesan Sekarang</h3>
-                <form id="orderForm">
-                    <div class="form-group">
-                        <input type="text" id="customerName" placeholder="Nama Lengkap" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" id="customerPhone" placeholder="Nomor WhatsApp" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="customerAddress" placeholder="Alamat Pengiriman" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="orderItems" placeholder="Daftar Pesanan (akan terisi otomatis)" readonly></textarea>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="orderTotal" placeholder="Total Harga" readonly>
-                    </div>
-                    <button type="submit" class="btn">Pesan via WhatsApp</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        </footer>
-
-    <a href="https://wa.me/6283114925705" class="whatsapp-btn" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-    <script src="produk.min.js"></script> </body>
-
+    </main>
+    
+    <script src="produk.min.js" defer></script>
+    <script src="script.min.js" defer></script>
+</body>
 </html>

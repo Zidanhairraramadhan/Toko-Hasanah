@@ -7,3 +7,13 @@ node_modules
 # Generated files
 .psci
 output
+# Folder-folder yang diabaikan
+node_modules/
+/backend/node_modules/
+
+# File database
+/backend/sembako.db
+/backend/sembako.db-journal
+
+# File environment (untuk masa depan)
+.env

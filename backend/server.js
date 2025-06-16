@@ -1,12 +1,11 @@
 // =================================================================
-// ==           KODE LENGKAP & FINAL UNTUK SERVER.JS            ==
+// ==      KODE SERVER.JS DENGAN PRODUK AWAL (AUTO-SEEDING)     ==
 // =================================================================
 
-// 1. IMPORT SEMUA MODUL
+// 1. IMPORT MODUL
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const { open } = require('sqlite');
-const cors = require('cors');
 const path = require('path');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -15,32 +14,25 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 3000;
 
-// 3. GUNAKAN SEMUA MIDDLEWARE
-// Konfigurasi CORS yang benar untuk komunikasi dengan Live Server
-app.use(cors({
-    origin: 'http://127.0.0.1:5500', 
-    credentials: true
-}));
-app.use(express.json()); // Untuk membaca body JSON dari request
-app.use('/images', express.static(path.join(__dirname, '../images'))); // Untuk menyajikan gambar
-app.use(cookieParser()); // Untuk membaca cookie
-
-// Konfigurasi Sesi Login
+// 3. MIDDLEWARE & KONFIGURASI
+const publicDirectoryPath = path.join(__dirname, '../');
+console.log(`Aplikasi akan menyajikan file dari direktori: ${publicDirectoryPath}`);
+app.use(express.static(publicDirectoryPath));
+app.use(express.json());
+app.use(cookieParser());
 app.use(session({
-    secret: 'kunci-rahasia-yang-sangat-aman-dan-panjang-sekali-untuk-proyek-ini', 
+    secret: 'kunci-rahasia-yang-super-aman-dan-unik',
     resave: false,
     saveUninitialized: false,
-    cookie: {
-        maxAge: 24 * 60 * 60 * 1000, // Sesi berlaku selama 24 jam
-        httpOnly: true 
-    }
+    cookie: { maxAge: 24 * 60 * 60 * 1000 }
 }));
 
 
-// === Kredensial Admin & Inisialisasi Database ===
+// === Kredensial Admin & Database ===
 let db;
 const ADMIN_USER = 'admin';
-const ADMIN_PASS = '12345'; // Di aplikasi nyata, JANGAN simpan password seperti ini
+const ADMIN_PASS = '12345';
+// DATA PRODUK AWAL (18 PRODUK)
 const initialProducts = [
     { name: "Beras Premium 5kg", price: 58500, discount: 65000, image: "images/beras.webp", rating: 4.5, category: "Kebutuhan Rumah Tangga", description: "Beras premium kualitas terbaik", stock: 10 },
     { name: "Minyak Goreng 2L", price: 30400, discount: 32000, image: "images/minyak.webp", rating: 4, category: "Kebutuhan Rumah Tangga", description: "Minyak goreng", stock: 15 },
@@ -74,77 +66,54 @@ async function seedDatabase() {
 async function initializeDatabase() {
   db = await open({ filename: './sembako.db', driver: sqlite3.Database });
   await db.exec(`CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price INTEGER NOT NULL, discount INTEGER, image TEXT, rating REAL, category TEXT, description TEXT, stock INTEGER DEFAULT 0)`);
+  
   const row = await db.get('SELECT COUNT(*) as count FROM products');
   if (row.count === 0) {
       console.log('Database kosong, mengisi dengan data awal...');
-      await seedDatabase();
+      await seedDatabase(); // PENTING: Fungsi ini sekarang aktif
   } else {
       console.log('Database sudah berisi data, proses seeding dilewati.');
   }
 }
 
-// Middleware "Penjaga" untuk Rute yang Dilindungi
+// === Middleware "Penjaga" ===
 const checkAuth = (req, res, next) => {
-    if (req.session.loggedIn) {
-        next(); // Jika sudah login, izinkan akses
-    } else {
-        res.status(401).json({ message: 'Akses ditolak. Silakan login terlebih dahulu.' });
-    }
+    if (req.session.loggedIn) next();
+    else res.status(401).json({ message: 'Akses ditolak. Silakan login.' });
 };
 
-// ===========================================
-// 4. DEFINISIKAN SEMUA API ENDPOINT
-// ===========================================
-
-// Endpoint Autentikasi
+// === API ENDPOINTS ===
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     if (username === ADMIN_USER && password === ADMIN_PASS) {
-        req.session.loggedIn = true; // Set sesi sebagai "sudah login"
-        req.session.username = username;
-        res.json({ success: true, message: 'Login berhasil!' });
+        req.session.loggedIn = true;
+        res.json({ success: true });
     } else {
         res.status(401).json({ success: false, message: 'Username atau password salah.' });
     }
 });
-
-app.get('/api/check-auth', (req, res) => {
-    res.json({ loggedIn: !!req.session.loggedIn });
-});
-
+app.get('/api/check-auth', (req, res) => res.json({ loggedIn: !!req.session.loggedIn }));
 app.post('/api/logout', (req, res) => {
-    req.session.destroy(err => {
-        if (err) return res.status(500).json({ message: 'Gagal logout.' });
-        res.clearCookie('connect.sid');
-        res.json({ success: true, message: 'Anda berhasil logout.' });
-    });
+    req.session.destroy(() => res.json({ success: true }));
 });
-
-// Endpoint Produk (CRUD)
-// GET (READ) bersifat publik
 app.get('/api/products', async (req, res) => {
     const products = await db.all('SELECT * FROM products ORDER BY id DESC');
     res.json(products);
 });
-
-// CREATE, UPDATE, DELETE dilindungi oleh `checkAuth`
 app.post('/api/products', checkAuth, async (req, res) => {
     const { name, price, discount, image, rating, category, description, stock } = req.body;
     const result = await db.run('INSERT INTO products (name, price, discount, image, rating, category, description, stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [name, price, discount, image, rating, category, description, stock]);
     res.status(201).json({ id: result.lastID });
 });
-
 app.put('/api/products/:id', checkAuth, async (req, res) => {
     const { name, price, discount, image, rating, category, description, stock } = req.body;
     await db.run(`UPDATE products SET name = ?, price = ?, discount = ?, image = ?, rating = ?, category = ?, description = ?, stock = ? WHERE id = ?`, [name, price, discount, image, rating, category, description, stock, req.params.id]);
     res.json({ message: 'Produk berhasil diperbarui' });
 });
-
 app.delete('/api/products/:id', checkAuth, async (req, res) => {
     await db.run('DELETE FROM products WHERE id = ?', [req.params.id]);
     res.json({ message: 'Produk berhasil dihapus' });
 });
-
 
 // 5. JALANKAN SERVER
 initializeDatabase().then(() => {

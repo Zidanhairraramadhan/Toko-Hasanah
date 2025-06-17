@@ -1,0 +1,97 @@
+document.addEventListener('DOMContentLoaded', async function() {
+    // Verifikasi Login di Awal Halaman
+    try {
+        const authResponse = await fetch('/api/check-auth', {credentials: 'include'});
+        const authData = await authResponse.json();
+        if (!authData.loggedIn) {
+            window.location.href = 'login.html';
+            return;
+        }
+    } catch (error) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    const API_URL = '/api/products';
+    const form = document.getElementById('productForm');
+    const tableBody = document.getElementById('productTableBody');
+    const productIdInput = document.getElementById('productId');
+    const clearBtn = document.getElementById('clearBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    async function fetchAndRenderProducts() {
+        try {
+            const response = await fetch(API_URL);
+            const products = await response.json();
+            tableBody.innerHTML = '';
+            products.forEach(product => {
+                const imageSrc = product.image ? `/${product.image}` : '';
+                tableBody.innerHTML += `<tr><td><img src="${imageSrc}" alt="${product.name}" style="width:50px; height:50px; object-fit:contain;"></td><td>${product.name}</td><td>Rp${product.price.toLocaleString('id-ID')}</td><td>${product.stock}</td><td class="actions"><button class="btn-edit" onclick="window.handleEdit(${product.id})">Edit</button><button class="btn-delete" onclick="window.handleDelete(${product.id})">Hapus</button></td></tr>`;
+            });
+        } catch(e){ console.error("Gagal memuat produk:", e); }
+    }
+
+    window.handleEdit = async (id) => {
+        try {
+            const response = await fetch(API_URL);
+            const products = await response.json();
+            const product = products.find(p => p.id === id);
+            if (product) {
+                productIdInput.value = product.id;
+                document.getElementById('name').value = product.name;
+                document.getElementById('price').value = product.price;
+                document.getElementById('discount').value = product.discount || '';
+                document.getElementById('stock').value = product.stock;
+                document.getElementById('image').value = product.image;
+                document.getElementById('rating').value = product.rating || '';
+                document.getElementById('category').value = product.category || '';
+                document.getElementById('description').value = product.description || '';
+                form.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (e) { console.error("Gagal mengambil detail produk:", e); }
+    };
+
+    window.handleDelete = async (id) => {
+        if (!confirm(`Yakin ingin menghapus produk dengan ID: ${id}?`)) return;
+        await fetch(`${API_URL}/${id}`, { method: 'DELETE', credentials: 'include' });
+        fetchAndRenderProducts();
+    };
+    
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const id = productIdInput.value;
+        const productData = {
+            name: document.getElementById('name').value,
+            price: parseInt(document.getElementById('price').value),
+            discount: document.getElementById('discount').value ? parseInt(document.getElementById('discount').value) : null,
+            stock: parseInt(document.getElementById('stock').value),
+            image: document.getElementById('image').value,
+            rating: document.getElementById('rating').value ? parseFloat(document.getElementById('rating').value) : null,
+            category: document.getElementById('category').value,
+            description: document.getElementById('description').value
+        };
+        const method = id ? 'PUT' : 'POST';
+        const url = id ? `${API_URL}/${id}` : API_URL;
+        await fetch(url, {
+            method: method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(productData),
+            credentials: 'include' 
+        });
+        clearForm();
+        fetchAndRenderProducts();
+    });
+
+    function clearForm() {
+        form.reset();
+        productIdInput.value = '';
+    }
+    clearBtn.addEventListener('click', clearForm);
+
+    logoutBtn.addEventListener('click', async () => {
+        await fetch('/api/logout', { method: 'POST', credentials: 'include' });
+        window.location.href = 'login.html';
+    });
+
+    fetchAndRenderProducts();
+});

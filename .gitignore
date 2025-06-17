@@ -1,0 +1,9 @@
+# Abaikan folder node_modules di mana pun lokasinya
+**/node_modules
+
+# Abaikan file database
+backend/sembako.db
+backend/sembako.db-journal
+
+# Abaikan file environment (untuk masa depan)
+.env

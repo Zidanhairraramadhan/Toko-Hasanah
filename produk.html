@@ -43,62 +43,42 @@
                 </div>
         </div>
     </main>
-
-    <div class="cart-modal-overlay" id="cart-modal-overlay">
-        <div class="cart-modal">
-            <div class="cart-modal-header">
-                <h2>Keranjang Anda</h2>
-                <button class="close-cart-btn" id="close-cart-btn">&times;</button>
-            </div>
-            <div class="cart-modal-body" id="cart-items-container">
-                <p class="cart-empty-msg">Keranjang Anda masih kosong.</p>
-            </div>
-            <div class="cart-modal-footer">
-                <div class="cart-total">
-                    <strong>Total:</strong>
-                    <span id="cart-total-price">Rp 0</span>
+    <section class="order-section" id="order-form-section">
+    <div class="container">
+        <div class="order-form">
+            <h2 class="section-title">Formulir Pemesanan</h2>
+            <form id="orderForm">
+                <div class="form-group">
+                    <label for="customerName">Nama Lengkap</label>
+                    <input type="text" id="customerName" placeholder="Masukkan nama lengkap Anda" required>
                 </div>
-                <a href="#order-form-section" class="btn checkout-btn" id="checkout-btn">Lanjut ke Pemesanan</a>
-            </div>
+                <div class="form-group">
+                    <label for="customerPhone">Nomor WhatsApp</label>
+                    <input type="tel" id="customerPhone" placeholder="Contoh: 08123456789" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerAddress">Alamat Pengiriman</label>
+                    <textarea id="customerAddress" placeholder="Masukkan alamat lengkap untuk pengiriman" required rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Pesanan Anda</label>
+                    <textarea id="orderItems" readonly placeholder="Pesanan Anda akan muncul di sini setelah Anda menambahkan produk ke keranjang..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="orderTotal">Total Harga</label>
+                    <input type="text" id="orderTotal" readonly>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Pesan via WhatsApp</button>
+            </form>
         </div>
     </div>
-
-    <section class="order-section" id="order-form-section">
-        <div class="container">
-            <div class="order-form">
-                <h2 class="section-title">Formulir Pemesanan</h2>
-                <form id="orderForm">
-                    <div class="form-group">
-                        <label for="customerName">Nama Lengkap</label>
-                        <input type="text" id="customerName" placeholder="Masukkan nama lengkap Anda" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="customerPhone">Nomor WhatsApp</label>
-                        <input type="tel" id="customerPhone" placeholder="Contoh: 08123456789" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="customerAddress">Alamat Pengiriman</label>
-                        <textarea id="customerAddress" placeholder="Masukkan alamat lengkap untuk pengiriman" required rows="4"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Pesanan Anda</label>
-                        <textarea id="orderItems" readonly placeholder="Pesanan Anda akan muncul di sini..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="orderTotal">Total Harga</label>
-                        <input type="text" id="orderTotal" readonly>
-                    </div>
-                    <button type="submit" class="btn" style="width: 100%;">Pesan via WhatsApp</button>
-                </form>
-            </div>
-        </div>
-    </section>
+</section>
     
     <a href="https://wa.me/6283114925705?text=Halo%20SembakoModern" class="whatsapp-btn" target="_blank" aria-label="Hubungi via WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
     
     <script src="produk.min.js" defer></script>
-    <script src="scrip.js" defer></script>
+    <script src="script.min.js" defer></script> 
 </body>
 </html>

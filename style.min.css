@@ -409,9 +409,9 @@ body {
 }
 
 .product img {
-  width: 100%;
+  width: 80%;
   height: auto;
-  border-radius: 5px;
+  border-radius: 20px;
   margin-bottom: 15px;
 }
 
@@ -1245,5 +1245,31 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
+}
+/* ================================================ */
+/* === PERBAIKAN UNTUK GAMBAR DI KERANJANG BELANJA === */
+/* ================================================ */
+
+.cart-item {
+    display: flex;
+    align-items: center; /* Membuat gambar dan tulisan sejajar rapi */
+    gap: 1rem; /* Memberi jarak antara gambar dan detail produk */
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* INI ADALAH BAGIAN KUNCINYA */
+.cart-item-img {
+    width: 80px;        /* Batasi lebar gambar menjadi 80 piksel */
+    height: 80px;       /* Batasi tinggi gambar menjadi 80 piksel */
+    object-fit: contain;  /* Pastikan gambar pas tanpa menjadi gepeng atau penyok */
+    border: 1px solid #eee;
+    border-radius: 8px;
+    flex-shrink: 0;     /* Mencegah gambar ikut menyusut jika teksnya panjang */
+}
+
+.cart-item-details {
+    flex-grow: 1; /* Biarkan bagian detail (nama & harga) mengisi sisa ruang */
 }
 }

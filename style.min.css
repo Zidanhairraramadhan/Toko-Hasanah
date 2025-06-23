@@ -93,6 +93,41 @@ body {
     cursor: pointer;
     position: relative;
 }
+.menu-btn {
+    display: none; /* Sembunyikan tombol burger di desktop */
+}
+
+@media (max-width: 768px) {
+    .menu-btn {
+        display: inline-block; /* Tampilkan kembali di mobile */
+    }
+
+    .navbar {
+        position: fixed;
+        top: 0; /* Ubah ini agar menu menutupi seluruh layar dari atas */
+        left: -100%;
+        background: white;
+        width: 80%;
+        height: 100vh; /* Gunakan 100vh agar menu setinggi layar */
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: left 0.3s ease-in-out; /* Perhalus transisi */
+        padding-top: 5rem; /* Beri jarak dari atas */
+    }
+    
+    .navbar.active {
+        left: 0;
+    }
+    
+    .navbar ul {
+        flex-direction: column;
+        padding: 2rem;
+    }
+    
+    .navbar ul li {
+        margin: 1rem 0;
+        font-size: 1.2rem; /* Perbesar font agar mudah diklik */
+    }
+}
 
 .cart-count {
     position: absolute;

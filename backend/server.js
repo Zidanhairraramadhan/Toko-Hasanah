@@ -12,7 +12,7 @@ const cookieParser = require('cookie-parser');
 
 // 2. BUAT APLIKASI EXPRESS
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // 3. MIDDLEWARE & KONFIGURASI
 const publicDirectoryPath = path.join(__dirname, '../');

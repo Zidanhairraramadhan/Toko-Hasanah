@@ -3,6 +3,8 @@
 // =================================================================
 
 // 1. IMPORT MODUL
+const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const { open } = require('sqlite');
@@ -20,11 +22,23 @@ console.log(`Aplikasi akan menyajikan file dari direktori: ${publicDirectoryPath
 app.use(express.static(publicDirectoryPath));
 app.use(express.json());
 app.use(cookieParser());
+// Membuat penyimpanan sesi di dalam database PostgreSQL
+const sessionStore = new pgSession({
+  pool: db, // Menggunakan koneksi database 'db' yang sudah ada
+  tableName: 'user_sessions' // Nama tabel untuk menyimpan data sesi
+});
+
+// Menggunakan session store yang baru
 app.use(session({
-    secret: 'kunci-rahasia-yang-super-aman-dan-unik',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 }
+store: sessionStore,
+secret: 'ZIDAN-GANTENG-BANGET', // <-- WAJIB GANTI!
+resave: false,
+saveUninitialized: false,
+cookie: {
+maxAge: 30 * 24 * 60 * 60 * 1000, // Cookie berlaku selama 30 hari
+secure: true, // WAJIB untuk hosting online (HTTPS)
+sameSite: 'lax' // Pengaturan keamanan modern
+}
 }));
 
 

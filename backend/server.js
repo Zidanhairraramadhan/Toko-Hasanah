@@ -2,16 +2,14 @@
 // ==      KODE SERVER.JS YANG SUDAH DIPERBAIKI (SQLite)        ==
 // =================================================================
 
-// 1. IMPORT MODUL
 require('dotenv').config();
-const session = require('express-session');
-// const pgSession = require('connect-pg-simple')(session); // <-- DIHAPUS, tidak kompatibel dengan SQLite
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const { open } = require('sqlite');
 const path = require('path');
+const session = require('express-session');
 const cookieParser = require('cookie-parser');
-
+const { Pool } = require('pg'); // <-- Ganti dengan ini
+const pgSession = require('connect-pg-simple')(session);
+const cors = require('cors');
 // 2. BUAT APLIKASI EXPRESS
 const app = express();
 const PORT = process.env.PORT || 3000;

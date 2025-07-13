@@ -1,15 +1,15 @@
 // =================================================================
-// ==      KODE SERVER.JS DENGAN PRODUK AWAL (AUTO-SEEDING)     ==
+// ==      KODE SERVER.JS YANG SUDAH DIPERBAIKI (SQLite)        ==
 // =================================================================
 
 // 1. IMPORT MODUL
+require('dotenv').config();
 const session = require('express-session');
-const pgSession = require('connect-pg-simple')(session);
+// const pgSession = require('connect-pg-simple')(session); // <-- DIHAPUS, tidak kompatibel dengan SQLite
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const { open } = require('sqlite');
 const path = require('path');
-const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
 // 2. BUAT APLIKASI EXPRESS
@@ -22,28 +22,26 @@ console.log(`Aplikasi akan menyajikan file dari direktori: ${publicDirectoryPath
 app.use(express.static(publicDirectoryPath));
 app.use(express.json());
 app.use(cookieParser());
-// Membuat penyimpanan sesi di dalam database PostgreSQL
-const sessionStore = new pgSession({
-  pool: db, // Menggunakan koneksi database 'db' yang sudah ada
-  tableName: 'user_sessions' // Nama tabel untuk menyimpan data sesi
-});
 
-// Menggunakan session store yang baru
+// Menggunakan session store bawaan (MemoryStore) yang lebih sederhana
+// Ini memperbaiki error karena tidak lagi memerlukan variabel 'db' saat startup.
 app.use(session({
-store: sessionStore,
-secret: 'ZIDAN-GANTENG-BANGET', // <-- WAJIB GANTI!
-resave: false,
-saveUninitialized: false,
-cookie: {
-maxAge: 30 * 24 * 60 * 60 * 1000, // Cookie berlaku selama 30 hari
-secure: true, // WAJIB untuk hosting online (HTTPS)
-sameSite: 'lax' // Pengaturan keamanan modern
-}
+    // store: sessionStore, // <-- DIHAPUS, karena kita pakai MemoryStore bawaan
+    secret: 'ZIDAN-GANTENG-BANGET', // <-- WAJIB GANTI DENGAN KATA RAHASIA LAIN
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 30 * 24 * 60 * 60 * 1000, // Cookie berlaku selama 30 hari
+        // 'secure: true' harus dinonaktifkan saat development di localhost (HTTP)
+        // Aktifkan lagi hanya saat hosting online dengan HTTPS
+        secure: false, 
+        sameSite: 'lax'
+    }
 }));
 
 
 // === Kredensial Admin & Database ===
-let db;
+let db; // Variabel db akan diisi nanti oleh initializeDatabase
 const ADMIN_USER = 'admin';
 const ADMIN_PASS = '12345';
 // DATA PRODUK AWAL (18 PRODUK)
@@ -78,16 +76,16 @@ async function seedDatabase() {
 }
 
 async function initializeDatabase() {
-  db = await open({ filename: './sembako.db', driver: sqlite3.Database });
-  await db.exec(`CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price INTEGER NOT NULL, discount INTEGER, image TEXT, rating REAL, category TEXT, description TEXT, stock INTEGER DEFAULT 0)`);
-  
-  const row = await db.get('SELECT COUNT(*) as count FROM products');
-  if (row.count === 0) {
-      console.log('Database kosong, mengisi dengan data awal...');
-      await seedDatabase(); // PENTING: Fungsi ini sekarang aktif
-  } else {
-      console.log('Database sudah berisi data, proses seeding dilewati.');
-  }
+    db = await open({ filename: './sembako.db', driver: sqlite3.Database });
+    await db.exec(`CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price INTEGER NOT NULL, discount INTEGER, image TEXT, rating REAL, category TEXT, description TEXT, stock INTEGER DEFAULT 0)`);
+    
+    const row = await db.get('SELECT COUNT(*) as count FROM products');
+    if (row.count === 0) {
+        console.log('Database kosong, mengisi dengan data awal...');
+        await seedDatabase();
+    } else {
+        console.log('Database sudah berisi data, proses seeding dilewati.');
+    }
 }
 
 // === Middleware "Penjaga" ===

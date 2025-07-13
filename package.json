@@ -1,0 +1,11 @@
+{
+  "name": "toko-hasanah-heroku-deploy",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node backend/server.js",
+    "heroku-postbuild": "cd backend && npm install"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}

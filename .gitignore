@@ -1,9 +1,15 @@
-# Abaikan folder node_modules di mana pun lokasinya
-**/node_modules
+# Dependensi Node.js
+/backend/node_modules/
 
-# Abaikan file database
-backend/sembako.db
-backend/sembako.db-journal
+# File environment yang berisi kunci rahasia
+/backend/.env
 
-# Abaikan file environment (untuk masa depan)
-.env
+# Database lokal SQLite
+/backend/sembako.db
+
+# Log dari NPM
+npm-debug.log*
+
+# File sistem operasi
+.DS_Store
+Thumbs.db

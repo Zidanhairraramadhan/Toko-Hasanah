@@ -66,7 +66,9 @@ const checkAuth = (req, res, next) => {
         res.status(401).json({ message: 'Akses ditolak.' });
     }
 };
-
+app.get("/", (req, res) => {
+    res.send("Server Toko Hasanah Aktif dan Sehat!");
+});
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     if (username === ADMIN_USER && password === ADMIN_PASS) {

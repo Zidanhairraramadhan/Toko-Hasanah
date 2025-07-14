@@ -20,7 +20,10 @@ const db = new Pool({
 
 // Middleware & Konfigurasi
 app.use(cors());
-app.use(express.static(path.join(__dirname, '../')));
+// =================== PERBAIKAN DI SINI ===================
+// Mengarahkan ke direktori saat ini, karena server.js sekarang ada di folder utama
+app.use(express.static(__dirname)); 
+// =========================================================
 app.use(express.json());
 app.use(cookieParser());
 
@@ -37,7 +40,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: { 
         maxAge: 30 * 24 * 60 * 60 * 1000,
-        secure: true,
+        secure: true, 
         sameSite: 'lax'
     }
 }));

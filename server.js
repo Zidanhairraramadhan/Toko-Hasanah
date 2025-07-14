@@ -10,6 +10,7 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Konfigurasi Pool Koneksi Database PostgreSQL
 const db = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
@@ -17,11 +18,13 @@ const db = new Pool({
     }
 });
 
+// Middleware & Konfigurasi
 app.use(cors());
-app.use(express.static(__dirname)); // <-- SUDAH DIPERBAIKI
+app.use(express.static(__dirname));
 app.use(express.json());
 app.use(cookieParser());
 
+// Konfigurasi Penyimpanan Sesi di Database
 const sessionStore = new pgSession({
   pool: db,
   tableName: 'user_sessions'
@@ -39,26 +42,22 @@ app.use(session({
     }
 }));
 
+// Kredensial Admin
 const ADMIN_USER = 'admin';
 const ADMIN_PASS = '12345';
 
+// Fungsi untuk inisialisasi tabel
 async function initializeDatabase() {
     await db.query(`
         CREATE TABLE IF NOT EXISTS products (
-            id SERIAL PRIMARY KEY,
-            name TEXT NOT NULL,
-            price INTEGER NOT NULL,
-            discount INTEGER,
-            image TEXT,
-            rating REAL,
-            category TEXT,
-            description TEXT,
-            stock INTEGER DEFAULT 0
+            id SERIAL PRIMARY KEY, name TEXT NOT NULL, price INTEGER NOT NULL, discount INTEGER, 
+            image TEXT, rating REAL, category TEXT, description TEXT, stock INTEGER DEFAULT 0
         );
     `);
     console.log("Tabel 'products' siap digunakan.");
 }
 
+// Middleware "Penjaga" Otentikasi
 const checkAuth = (req, res, next) => {
     if (req.session.loggedIn) {
         next();
@@ -66,9 +65,19 @@ const checkAuth = (req, res, next) => {
         res.status(401).json({ message: 'Akses ditolak.' });
     }
 };
+
+// ================== KODE PENTING DI SINI ==================
+// Rute Health Check untuk merespons gateway Railway
 app.get("/", (req, res) => {
-    res.send("Server Toko Hasanah Aktif dan Sehat!");
+    // Mengirim file index.html sebagai respons
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
+// ========================================================
+
+// ====================================================================
+// === API ENDPOINTS LENGKAP (BAGIAN YANG HILANG SEBELUMNYA) ===
+// ====================================================================
+
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     if (username === ADMIN_USER && password === ADMIN_PASS) {
@@ -137,6 +146,8 @@ app.delete('/api/products/:id', checkAuth, async (req, res) => {
     }
 });
 
+
+// Jalankan server setelah inisialisasi DB
 initializeDatabase().then(() => {
     app.listen(PORT, () => console.log(`Server backend berjalan di http://localhost:${PORT}`));
 }).catch(err => {

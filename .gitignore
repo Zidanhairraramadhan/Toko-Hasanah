@@ -13,3 +13,6 @@ npm-debug.log*
 # File sistem operasi
 .DS_Store
 Thumbs.db
+node_modules/
+.env
+sembako.db

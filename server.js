@@ -147,9 +147,11 @@ app.delete('/api/products/:id', checkAuth, async (req, res) => {
 });
 
 
-// Jalankan server setelah inisialisasi DB
+// MENJADI SEPERTI INI
 initializeDatabase().then(() => {
-    app.listen(PORT, () => console.log(`Server backend berjalan di http://localhost:${PORT}`));
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server backend berjalan di port ${PORT}`);
+    });
 }).catch(err => {
     console.error("Gagal inisialisasi atau menjalankan server:", err);
     process.exit(1);

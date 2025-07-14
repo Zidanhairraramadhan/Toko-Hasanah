@@ -10,7 +10,6 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Konfigurasi Pool Koneksi Database PostgreSQL
 const db = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
@@ -18,16 +17,11 @@ const db = new Pool({
     }
 });
 
-// Middleware & Konfigurasi
 app.use(cors());
-// =================== PERBAIKAN DI SINI ===================
-// Mengarahkan ke direktori saat ini, karena server.js sekarang ada di folder utama
-app.use(express.static(__dirname)); 
-// =========================================================
+app.use(express.static(__dirname)); // <-- SUDAH DIPERBAIKI
 app.use(express.json());
 app.use(cookieParser());
 
-// Konfigurasi Penyimpanan Sesi di Database
 const sessionStore = new pgSession({
   pool: db,
   tableName: 'user_sessions'
@@ -40,16 +34,14 @@ app.use(session({
     saveUninitialized: false,
     cookie: { 
         maxAge: 30 * 24 * 60 * 60 * 1000,
-        secure: true, 
+        secure: true,
         sameSite: 'lax'
     }
 }));
 
-// Kredensial Admin
 const ADMIN_USER = 'admin';
 const ADMIN_PASS = '12345';
 
-// Fungsi untuk inisialisasi tabel
 async function initializeDatabase() {
     await db.query(`
         CREATE TABLE IF NOT EXISTS products (
@@ -67,16 +59,14 @@ async function initializeDatabase() {
     console.log("Tabel 'products' siap digunakan.");
 }
 
-// Middleware "Penjaga" Otentikasi
 const checkAuth = (req, res, next) => {
     if (req.session.loggedIn) {
         next();
     } else {
-        res.status(401).json({ message: 'Akses ditolak. Silakan login.' });
+        res.status(401).json({ message: 'Akses ditolak.' });
     }
 };
 
-// API Endpoints
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     if (username === ADMIN_USER && password === ADMIN_PASS) {
@@ -145,7 +135,6 @@ app.delete('/api/products/:id', checkAuth, async (req, res) => {
     }
 });
 
-// Jalankan server setelah inisialisasi DB
 initializeDatabase().then(() => {
     app.listen(PORT, () => console.log(`Server backend berjalan di http://localhost:${PORT}`));
 }).catch(err => {

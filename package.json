@@ -1,10 +1,14 @@
 {
-  "name": "backend",
+  "name": "toko-hasanah",
   "version": "1.0.0",
+  "description": "Aplikasi Toko Hasanah",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
+  },
+  "engines": {
+    "node": "18.x"
   },
   "dependencies": {
     "connect-pg-simple": "^9.0.1",

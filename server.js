@@ -66,18 +66,15 @@ const checkAuth = (req, res, next) => {
     }
 };
 
-// ================== KODE PENTING DI SINI ==================
+// ================== KODE PERBAIKAN DI SINI ==================
 // Rute Health Check untuk merespons gateway Railway
 app.get("/", (req, res) => {
-    // Mengirim file index.html sebagai respons
+    // Mengirim file index.html sebagai respons "sehat"
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 // ========================================================
 
-// ====================================================================
-// === API ENDPOINTS LENGKAP (BAGIAN YANG HILANG SEBELUMNYA) ===
-// ====================================================================
-
+// API Endpoints
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     if (username === ADMIN_USER && password === ADMIN_PASS) {
@@ -146,8 +143,7 @@ app.delete('/api/products/:id', checkAuth, async (req, res) => {
     }
 });
 
-
-// MENJADI SEPERTI INI
+// Jalankan server setelah inisialisasi DB
 initializeDatabase().then(() => {
     app.listen(PORT, '0.0.0.0', () => {
         console.log(`Server backend berjalan di port ${PORT}`);

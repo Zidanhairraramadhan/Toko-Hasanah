@@ -18,7 +18,7 @@ const db = new Pool({
     }
 });
 
-// Middleware & Konfigurasi
+// Middleware
 app.use(cors());
 app.use(express.static(__dirname));
 app.use(express.json());
@@ -42,19 +42,28 @@ app.use(session({
     }
 }));
 
+// Rute Health Check untuk merespons gateway
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // Kredensial Admin
 const ADMIN_USER = 'admin';
 const ADMIN_PASS = '12345';
 
 // Fungsi untuk inisialisasi tabel
 async function initializeDatabase() {
-    await db.query(`
-        CREATE TABLE IF NOT EXISTS products (
-            id SERIAL PRIMARY KEY, name TEXT NOT NULL, price INTEGER NOT NULL, discount INTEGER, 
-            image TEXT, rating REAL, category TEXT, description TEXT, stock INTEGER DEFAULT 0
-        );
-    `);
-    console.log("Tabel 'products' siap digunakan.");
+    try {
+        await db.query(`
+            CREATE TABLE IF NOT EXISTS products (
+                id SERIAL PRIMARY KEY, name TEXT NOT NULL, price INTEGER NOT NULL, discount INTEGER, 
+                image TEXT, rating REAL, category TEXT, description TEXT, stock INTEGER DEFAULT 0
+            );
+        `);
+        console.log("Tabel 'products' siap digunakan.");
+    } catch (err) {
+        console.error("Error saat membuat tabel products:", err);
+    }
 }
 
 // Middleware "Penjaga" Otentikasi
@@ -65,14 +74,6 @@ const checkAuth = (req, res, next) => {
         res.status(401).json({ message: 'Akses ditolak.' });
     }
 };
-
-// ================== KODE PERBAIKAN DI SINI ==================
-// Rute Health Check untuk merespons gateway Railway
-app.get("/", (req, res) => {
-    // Mengirim file index.html sebagai respons "sehat"
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-// ========================================================
 
 // API Endpoints
 app.post('/api/login', (req, res) => {
@@ -104,6 +105,7 @@ app.get('/api/products', async (req, res) => {
         const result = await db.query('SELECT * FROM products ORDER BY id DESC');
         res.json(result.rows);
     } catch (err) {
+        console.error("Error di /api/products:", err);
         res.status(500).json({ error: 'Gagal mengambil data produk' });
     }
 });

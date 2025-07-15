@@ -18,15 +18,19 @@ const db = new Pool({
     }
 });
 
-// Middleware
+// Middleware & Konfigurasi
 app.use(cors());
 app.use(express.static(__dirname));
 app.use(express.json());
 app.use(cookieParser());
 
+// ================== KODE PERBAIKAN DI SINI ==================
+// Rute Health Check untuk merespons gateway Railway
 app.get("/", (req, res) => {
-    res.send("Server is running.");
+    // Mengirim file index.html sebagai jawaban "sehat"
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
+// ========================================================
 
 // Konfigurasi Penyimpanan Sesi di Database
 const sessionStore = new pgSession({
@@ -46,28 +50,19 @@ app.use(session({
     }
 }));
 
-// GANTI DENGAN BLOK INI:
-app.get("/", (req, res) => {
-    res.send("Server is running and healthy");
-});
-
 // Kredensial Admin
 const ADMIN_USER = 'admin';
 const ADMIN_PASS = '12345';
 
 // Fungsi untuk inisialisasi tabel
 async function initializeDatabase() {
-    try {
-        await db.query(`
-            CREATE TABLE IF NOT EXISTS products (
-                id SERIAL PRIMARY KEY, name TEXT NOT NULL, price INTEGER NOT NULL, discount INTEGER, 
-                image TEXT, rating REAL, category TEXT, description TEXT, stock INTEGER DEFAULT 0
-            );
-        `);
-        console.log("Tabel 'products' siap digunakan.");
-    } catch (err) {
-        console.error("Error saat membuat tabel products:", err);
-    }
+    await db.query(`
+        CREATE TABLE IF NOT EXISTS products (
+            id SERIAL PRIMARY KEY, name TEXT NOT NULL, price INTEGER NOT NULL, discount INTEGER, 
+            image TEXT, rating REAL, category TEXT, description TEXT, stock INTEGER DEFAULT 0
+        );
+    `);
+    console.log("Tabel 'products' siap digunakan.");
 }
 
 // Middleware "Penjaga" Otentikasi

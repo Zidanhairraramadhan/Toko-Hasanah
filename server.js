@@ -48,8 +48,8 @@ app.get("/", (req, res) => {
 });
 
 // Kredensial Admin
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = '12345';
+const ADMIN_USER = 'zidan';
+const ADMIN_PASS = '021105';
 
 // ================== DATA PRODUK AWAL ==================
 const initialProducts = [

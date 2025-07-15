@@ -72,8 +72,8 @@ async function startServer() {
     }));
 
     // === 4. KONFIGURASI RUTE DAN API ===
-    const ADMIN_USER = 'admin';
-    const ADMIN_PASS = '12345';
+    const ADMIN_USER = 'zidan';
+    const ADMIN_PASS = '021105';
     
     // Rute Health Check
     app.get("/", (req, res) => {

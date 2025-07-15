@@ -27,8 +27,7 @@ app.use(cookieParser());
 // ================== KODE PERBAIKAN DI SINI ==================
 // Rute Health Check untuk merespons gateway Railway
 app.get("/", (req, res) => {
-    // Mengirim file index.html sebagai jawaban "sehat"
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.send("Server is running and healthy");
 });
 // ========================================================
 

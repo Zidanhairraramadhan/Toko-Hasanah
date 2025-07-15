@@ -1,57 +1,48 @@
+// 1. IMPORT MODUL
 require('dotenv').config();
-const express = require('express');
-const path = require('path');
 const session = require('express-session');
+const express = require('express');
+const sqlite3 = require('sqlite3').verbose();
+const { open } = require('sqlite');
+const path = require('path');
 const cookieParser = require('cookie-parser');
-const { Pool } = require('pg');
-const pgSession = require('connect-pg-simple')(session);
-const cors = require('cors');
 
+// 2. BUAT APLIKASI EXPRESS
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Konfigurasi Pool Koneksi Database PostgreSQL
-const db = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
+// ================== PERBAIKAN PENTING DI SINI ==================
+// Memberitahu Express untuk percaya pada proxy dari Railway
+// Ini penting agar cookie 'secure' bisa bekerja dengan benar.
+app.set('trust proxy', 1); 
+// =============================================================
 
-// Middleware & Konfigurasi
-app.use(cors());
-app.use(express.static(__dirname));
+// 3. MIDDLEWARE & KONFIGURASI
+const publicDirectoryPath = path.join(__dirname, '../');
+app.use(express.static(publicDirectoryPath));
 app.use(express.json());
 app.use(cookieParser());
 
-// Konfigurasi Penyimpanan Sesi di Database
-const sessionStore = new pgSession({
-  pool: db,
-  tableName: 'user_sessions'
-});
-
+// Konfigurasi session dengan pengaturan yang benar untuk produksi
 app.use(session({
-    store: sessionStore,
-    secret: process.env.SESSION_SECRET,
+    secret: 'ZIDAN-GANTENG-BANGET', // Ganti dengan secret Anda dari Environment Variable nanti
     resave: false,
     saveUninitialized: false,
-    cookie: { 
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        secure: true,
-        sameSite: 'lax'
+    cookie: {
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 hari
+        secure: true, // WAJIB 'true' untuk HTTPS di production
+        httpOnly: true, // Meningkatkan keamanan
+        sameSite: 'lax' // Pengaturan standar yang aman untuk satu domain
     }
 }));
 
-// Rute Health Check untuk merespons gateway Railway
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
 
-// Kredensial Admin
+// === Kredensial Admin & Database ===
+let db;
 const ADMIN_USER = 'zidan';
 const ADMIN_PASS = '021105';
 
-// ================== DATA PRODUK AWAL ==================
+// ... (Sisa kode Anda untuk initialProducts, seedDatabase, initializeDatabase tidak perlu diubah) ...
 const initialProducts = [
     { name: "Beras Premium 5kg", price: 58500, discount: 65000, image: "images/beras.webp", rating: 4.5, category: "Kebutuhan Rumah Tangga", description: "Beras premium kualitas terbaik", stock: 10 },
     { name: "Minyak Goreng 2L", price: 30400, discount: 32000, image: "images/minyak.webp", rating: 4, category: "Kebutuhan Rumah Tangga", description: "Minyak goreng", stock: 15 },
@@ -74,26 +65,20 @@ const initialProducts = [
 ];
 
 async function seedDatabase() {
-    const query = 'INSERT INTO products (name, price, discount, image, rating, category, description, stock) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
+    const stmt = await db.prepare('INSERT INTO products (name, price, discount, image, rating, category, description, stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
     for (const product of initialProducts) {
-        const values = [product.name, product.price, product.discount, product.image, product.rating, product.category, product.description, product.stock];
-        await db.query(query, values);
+        await stmt.run(product.name, product.price, product.discount, product.image, product.rating, product.category, product.description, product.stock);
     }
+    await stmt.finalize();
     console.log('Seeding selesai. 18 produk awal telah dimasukkan.');
 }
 
-// Fungsi untuk inisialisasi tabel
 async function initializeDatabase() {
-    await db.query(`
-        CREATE TABLE IF NOT EXISTS products (
-            id SERIAL PRIMARY KEY, name TEXT NOT NULL, price INTEGER NOT NULL, discount INTEGER, 
-            image TEXT, rating REAL, category TEXT, description TEXT, stock INTEGER DEFAULT 0
-        );
-    `);
-    console.log("Tabel 'products' siap digunakan.");
-
-    const { rows } = await db.query('SELECT COUNT(*) as count FROM products');
-    if (parseInt(rows[0].count) === 0) {
+    db = await open({ filename: './sembako.db', driver: sqlite3.Database });
+    await db.exec(`CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price INTEGER NOT NULL, discount INTEGER, image TEXT, rating REAL, category TEXT, description TEXT, stock INTEGER DEFAULT 0)`);
+    
+    const row = await db.get('SELECT COUNT(*) as count FROM products');
+    if (row.count === 0) {
         console.log('Database kosong, mengisi dengan data awal...');
         await seedDatabase();
     } else {
@@ -101,22 +86,18 @@ async function initializeDatabase() {
     }
 }
 
-// ... (Salin semua endpoint API Anda dari app.post('/api/login') hingga app.delete(...) di sini) ...
-const checkAuth = (req, res, next) => { if (req.session.loggedIn) { next(); } else { res.status(401).json({ message: 'Akses ditolak.' }); } };
+const checkAuth = (req, res, next) => { if (req.session.loggedIn) next(); else res.status(401).json({ message: 'Akses ditolak. Silakan login.' }); };
 app.post('/api/login', (req, res) => { const { username, password } = req.body; if (username === ADMIN_USER && password === ADMIN_PASS) { req.session.loggedIn = true; res.json({ success: true }); } else { res.status(401).json({ success: false, message: 'Username atau password salah.' }); } });
-app.get('/api/check-auth', (req, res) => { res.json({ loggedIn: !!req.session.loggedIn }); });
-app.post('/api/logout', (req, res) => { req.session.destroy(err => { if (err) { return res.status(500).json({ success: false, message: 'Gagal logout' }); } res.clearCookie('connect.sid'); res.json({ success: true }); }); });
-app.get('/api/products', async (req, res) => { try { const result = await db.query('SELECT * FROM products ORDER BY id DESC'); res.json(result.rows); } catch (err) { console.error("Error di /api/products:", err); res.status(500).json({ error: 'Gagal mengambil data produk' }); } });
-app.post('/api/products', checkAuth, async (req, res) => { try { const { name, price, discount, image, rating, category, description, stock } = req.body; const result = await db.query( 'INSERT INTO products (name, price, discount, image, rating, category, description, stock) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id', [name, price, discount, image, rating, category, description, stock] ); res.status(201).json({ id: result.rows[0].id }); } catch (err) { res.status(500).json({ error: 'Gagal menambah produk' }); } });
-app.put('/api/products/:id', checkAuth, async (req, res) => { try { const { name, price, discount, image, rating, category, description, stock } = req.body; await db.query( 'UPDATE products SET name = $1, price = $2, discount = $3, image = $4, rating = $5, category = $6, description = $7, stock = $8 WHERE id = $9', [name, price, discount, image, rating, category, description, stock, req.params.id] ); res.json({ message: 'Produk berhasil diperbarui' }); } catch (err) { res.status(500).json({ error: 'Gagal memperbarui produk' }); } });
-app.delete('/api/products/:id', checkAuth, async (req, res) => { try { await db.query('DELETE FROM products WHERE id = $1', [req.params.id]); res.json({ message: 'Produk berhasil dihapus' }); } catch (err) { res.status(500).json({ error: 'Gagal menghapus produk' }); } });
+app.get('/api/check-auth', (req, res) => res.json({ loggedIn: !!req.session.loggedIn }));
+app.post('/api/logout', (req, res) => { req.session.destroy(() => res.json({ success: true })); });
+app.get('/api/products', async (req, res) => { const products = await db.all('SELECT * FROM products ORDER BY id DESC'); res.json(products); });
+app.post('/api/products', checkAuth, async (req, res) => { const { name, price, discount, image, rating, category, description, stock } = req.body; const result = await db.run('INSERT INTO products (name, price, discount, image, rating, category, description, stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [name, price, discount, image, rating, category, description, stock]); res.status(201).json({ id: result.lastID }); });
+app.put('/api/products/:id', checkAuth, async (req, res) => { const { name, price, discount, image, rating, category, description, stock } = req.body; await db.run(`UPDATE products SET name = ?, price = ?, discount = ?, image = ?, rating = ?, category = ?, description = ?, stock = ? WHERE id = ?`, [name, price, discount, image, rating, category, description, stock, req.params.id]); res.json({ message: 'Produk berhasil diperbarui' }); });
+app.delete('/api/products/:id', checkAuth, async (req, res) => { await db.run('DELETE FROM products WHERE id = ?', [req.params.id]); res.json({ message: 'Produk berhasil dihapus' }); });
 
-// Jalankan server setelah inisialisasi DB
+// 5. JALANKAN SERVER
 initializeDatabase().then(() => {
     app.listen(PORT, '0.0.0.0', () => {
         console.log(`Server backend berjalan di port ${PORT}`);
     });
-}).catch(err => {
-    console.error("Gagal inisialisasi atau menjalankan server:", err);
-    process.exit(1);
-});
+}).catch(err => console.error("Gagal inisialisasi database:", err));

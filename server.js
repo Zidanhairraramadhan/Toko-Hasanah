@@ -42,9 +42,9 @@ app.use(session({
     }
 }));
 
-// Rute Health Check untuk merespons gateway
+// GANTI DENGAN BLOK INI:
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.send("Server is running and healthy");
 });
 
 // Kredensial Admin

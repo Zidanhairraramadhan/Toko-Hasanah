@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     const errorMessage = document.getElementById('errorMessage');
-    const API_URL = '/api/login';
+    const API_URL = 'https://toko-hasanah-production.up.railway.app/api/login';
 
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {

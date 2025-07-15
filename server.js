@@ -74,15 +74,43 @@ async function seedDatabase() {
 }
 
 async function initializeDatabase() {
-    db = await open({ filename: './sembako.db', driver: sqlite3.Database });
-    await db.exec(`CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price INTEGER NOT NULL, discount INTEGER, image TEXT, rating REAL, category TEXT, description TEXT, stock INTEGER DEFAULT 0)`);
-    
-    const row = await db.get('SELECT COUNT(*) as count FROM products');
-    if (row.count === 0) {
-        console.log('Database kosong, mengisi dengan data awal...');
+    // Membuat tabel untuk produk
+    await db.query(`
+        CREATE TABLE IF NOT EXISTS products (
+            id SERIAL PRIMARY KEY,
+            name TEXT NOT NULL,
+            price INTEGER NOT NULL,
+            discount INTEGER,
+            image TEXT,
+            rating REAL,
+            category TEXT,
+            description TEXT,
+            stock INTEGER DEFAULT 0
+        );
+    `);
+    console.log("Tabel 'products' siap digunakan.");
+
+    // ================== TAMBAHKAN KODE INI ==================
+    // Membuat tabel untuk menyimpan sesi login
+    await db.query(`
+        CREATE TABLE IF NOT EXISTS "user_sessions" (
+            "sid" varchar NOT NULL COLLATE "default",
+            "sess" json NOT NULL,
+            "expire" timestamp(6) NOT NULL
+        ) WITH (OIDS=FALSE);
+        ALTER TABLE "user_sessions" ADD CONSTRAINT "user_sessions_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+        CREATE INDEX "IDX_user_sessions_expire" ON "user_sessions" ("expire");
+    `);
+    console.log("Tabel 'user_sessions' siap digunakan.");
+    // ========================================================
+
+    // Auto-seeding products (jika perlu)
+    const { rows } = await db.query('SELECT COUNT(*) as count FROM products');
+    if (parseInt(rows[0].count) === 0) {
+        console.log('Database produk kosong, mengisi dengan data awal...');
         await seedDatabase();
     } else {
-        console.log('Database sudah berisi data, proses seeding dilewati.');
+        console.log('Database produk sudah berisi data, proses seeding dilewati.');
     }
 }
 

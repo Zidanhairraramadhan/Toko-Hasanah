@@ -1,10 +1,11 @@
 -- Database Setup for Toko Hasanah (MySQL / MariaDB)
 -- Run this script in phpMyAdmin or via MySQL command line
 
+-- 1. Create and Select Database
 CREATE DATABASE IF NOT EXISTS toko_hasanah;
 USE toko_hasanah;
 
--- Table structure for table `products`
+-- 2. Table structure for table `products`
 DROP TABLE IF EXISTS `products`;
 CREATE TABLE IF NOT EXISTS `products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -19,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Table structure for table `sessions` (used by express-mysql-session)
+-- 3. Table structure for table `sessions` (used by express-mysql-session)
 DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE IF NOT EXISTS `sessions` (
   `session_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
@@ -28,5 +29,17 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   PRIMARY KEY (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Optional: Insert dummy data if needed
--- INSERT INTO `products` (...) VALUES (...);
+-- 4. Table structure for table `users` (Added based on your screenshot)
+-- Using the structure from your error message
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id_user` INT AUTO_INCREMENT PRIMARY KEY,
+  `username` VARCHAR(50) NOT NULL,
+  `password` VARCHAR(50) NOT NULL,
+  `role` VARCHAR(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 5. Insert Default Admin User
+-- Password: '021105' (matches your server.js hardcoded password)
+INSERT INTO `users` (`username`, `password`, `role`) VALUES
+('zidan', '021105', 'admin');

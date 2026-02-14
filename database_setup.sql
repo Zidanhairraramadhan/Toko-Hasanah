@@ -2,8 +2,8 @@
 -- Run this script in phpMyAdmin or via MySQL command line
 
 -- 1. Create and Select Database
-CREATE DATABASE IF NOT EXISTS toko_hasanah;
-USE toko_hasanah;
+CREATE DATABASE IF NOT EXISTS db_toko_hasanah;
+USE db_toko_hasanah;
 
 -- 2. Table structure for table `products`
 DROP TABLE IF EXISTS `products`;

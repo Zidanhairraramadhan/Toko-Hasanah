@@ -2,10 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-
 const cookieParser = require('cookie-parser');
-const { Pool } = require('pg');
-const pgSession = require('connect-pg-simple')(session);
+const mysql = require('mysql2/promise');
+const MySQLStore = require('express-mysql-session')(session);
 const cors = require('cors');
 
 // --- Fungsi Utama untuk Memulai Server ---
@@ -14,38 +13,56 @@ async function startServer() {
     const PORT = process.env.PORT || 3000;
 
     // === 1. KONFIGURASI KONEKSI DATABASE ===
-   const db = new Pool({
-        user: process.env.DB_USER,
-        host: process.env.DB_HOST,
-        database: process.env.DB_NAME,
-        password: process.env.DB_PASS,
-        port: process.env.DB_PORT,
-        // (Tidak perlu 'ssl: false', karena default-nya sudah false)
-   });
+    const dbConfig = {
+        host: process.env.DB_HOST || 'localhost',
+        user: process.env.DB_USER || 'root',
+        password: process.env.DB_PASS || '',
+        database: process.env.DB_NAME || 'db_toko_hasanah',
+        port: process.env.DB_PORT || 3306
+    };
+
+    let db;
+    try {
+        db = await mysql.createPool(dbConfig);
+        await db.getConnection(); // Test connection
+        console.log("Terhubung ke database MySQL.");
+    } catch (err) {
+        console.error("Gagal terhubung ke database:", err);
+        process.exit(1);
+    }
 
     // === 2. MEMBUAT SEMUA TABEL TERLEBIH DAHULU ===
     // Membuat tabel untuk produk
-    await db.query(`
+    await db.execute(`
         CREATE TABLE IF NOT EXISTS products (
-            id SERIAL PRIMARY KEY, name TEXT NOT NULL, price INTEGER NOT NULL, discount INTEGER, 
-            image TEXT, rating REAL, category TEXT, description TEXT, stock INTEGER DEFAULT 0
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            price INT NOT NULL,
+            discount INT,
+            image TEXT,
+            rating FLOAT,
+            category VARCHAR(100),
+            description TEXT,
+            stock INT DEFAULT 0
         );
     `);
-    // Membuat tabel untuk sesi
-    await db.query(`
-        CREATE TABLE IF NOT EXISTS "user_sessions" (
-            "sid" varchar NOT NULL COLLATE "default",
-            "sess" json NOT NULL,
-            "expire" timestamp(6) NOT NULL
-        ) WITH (OIDS=FALSE);
+    
+    // Tabel users (untuk admin)
+    await db.execute(`
+         CREATE TABLE IF NOT EXISTS users (
+            id_user INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(50) NOT NULL,
+            password VARCHAR(50) NOT NULL,
+            role VARCHAR(20) NOT NULL
+        );
     `);
-    // Menambahkan Primary Key hanya jika belum ada
-    const constraintCheck = await db.query(`
-        SELECT conname FROM pg_constraint WHERE conrelid = '"user_sessions"'::regclass AND contype = 'p';
-    `);
-    if (constraintCheck.rowCount === 0) {
-        await db.query('ALTER TABLE "user_sessions" ADD CONSTRAINT "user_sessions_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;');
+
+    // Insert admin jika belum ada
+    const [users] = await db.execute("SELECT * FROM users WHERE username = 'zidan'");
+    if (users.length === 0) {
+        await db.execute("INSERT INTO users (username, password, role) VALUES ('zidan', '021105', 'admin')");
     }
+
     console.log("Semua tabel database siap digunakan.");
 
 
@@ -56,21 +73,31 @@ async function startServer() {
     app.use(express.json());
     app.use(cookieParser());
 
-    const sessionStore = new pgSession({
-      pool: db,
-      tableName: 'user_sessions'
+    const sessionStore = new MySQLStore({
+        ...dbConfig,
+        clearExpired: true,
+        checkExpirationInterval: 900000,
+        expiration: 86400000,
+        createDatabaseTable: true,
+        schema: {
+            tableName: 'sessions',
+            columnNames: {
+                session_id: 'session_id',
+                expires: 'expires',
+                data: 'data'
+            }
+        }
     });
 
     app.use(session({
         store: sessionStore,
-        secret: process.env.SESSION_SECRET,
+        secret: process.env.SESSION_SECRET || 'rahasia_negara_62',
         resave: false,
         saveUninitialized: false,
         cookie: { 
             maxAge: 30 * 24 * 60 * 60 * 1000,
-            secure: true,
-            httpOnly: true,
-            sameSite: 'lax'
+            secure: false, // Set false for HTTP (localhost)
+            httpOnly: true
         }
     }));
 
@@ -89,13 +116,26 @@ async function startServer() {
     };
 
     // Endpoint API
-    app.post('/api/login', (req, res) => {
+    app.post('/api/login', async (req, res) => {
         const { username, password } = req.body;
-        if (username === ADMIN_USER && password === ADMIN_PASS) {
-            req.session.loggedIn = true;
-            res.json({ success: true });
-        } else {
-            res.status(401).json({ success: false, message: 'Username atau password salah.' });
+        // Cek ke database users
+        try {
+            const [rows] = await db.execute('SELECT * FROM users WHERE username = ? AND password = ?', [username, password]);
+            if (rows.length > 0) {
+                 req.session.loggedIn = true;
+                 req.session.user = rows[0];
+                 res.json({ success: true });
+            } else {
+                 if (username === ADMIN_USER && password === ADMIN_PASS) {
+                    req.session.loggedIn = true;
+                    res.json({ success: true });
+                } else {
+                    res.status(401).json({ success: false, message: 'Username atau password salah.' });
+                }
+            }
+        } catch (error) {
+            console.error(error);
+             res.status(500).json({ success: false, message: 'Server error' });
         }
     });
 
@@ -113,9 +153,10 @@ async function startServer() {
 
     app.get('/api/products', async (req, res) => {
         try {
-            const result = await db.query('SELECT * FROM products ORDER BY id DESC');
-            res.json(result.rows);
+            const [rows] = await db.execute('SELECT * FROM products ORDER BY id DESC');
+            res.json(rows);
         } catch (err) {
+            console.error(err);
             res.status(500).json({ error: 'Gagal mengambil data produk' });
         }
     });
@@ -123,12 +164,13 @@ async function startServer() {
     app.post('/api/products', checkAuth, async (req, res) => {
         try {
             const { name, price, discount, image, rating, category, description, stock } = req.body;
-            const result = await db.query(
-                'INSERT INTO products (name, price, discount, image, rating, category, description, stock) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+            const [result] = await db.execute(
+                'INSERT INTO products (name, price, discount, image, rating, category, description, stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
                 [name, price, discount, image, rating, category, description, stock]
             );
-            res.status(201).json({ id: result.rows[0].id });
+            res.status(201).json({ id: result.insertId });
         } catch (err) {
+            console.error(err);
             res.status(500).json({ error: 'Gagal menambah produk' });
         }
     });
@@ -136,21 +178,23 @@ async function startServer() {
     app.put('/api/products/:id', checkAuth, async (req, res) => {
         try {
             const { name, price, discount, image, rating, category, description, stock } = req.body;
-            await db.query(
-                'UPDATE products SET name = $1, price = $2, discount = $3, image = $4, rating = $5, category = $6, description = $7, stock = $8 WHERE id = $9',
+            await db.execute(
+                'UPDATE products SET name = ?, price = ?, discount = ?, image = ?, rating = ?, category = ?, description = ?, stock = ? WHERE id = ?',
                 [name, price, discount, image, rating, category, description, stock, req.params.id]
             );
             res.json({ message: 'Produk berhasil diperbarui' });
         } catch (err) {
+            console.error(err);
             res.status(500).json({ error: 'Gagal memperbarui produk' });
         }
     });
 
     app.delete('/api/products/:id', checkAuth, async (req, res) => {
         try {
-            await db.query('DELETE FROM products WHERE id = $1', [req.params.id]);
+            const [result] = await db.execute('DELETE FROM products WHERE id = ?', [req.params.id]);
             res.json({ message: 'Produk berhasil dihapus' });
         } catch (err) {
+            console.error(err);
             res.status(500).json({ error: 'Gagal menghapus produk' });
         }
     });
